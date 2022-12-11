@@ -6,7 +6,7 @@ Code is placed in folders that relate to their function.
 
 
 ### Main Controller
-The main controller of this project is the ESP-32, it will program ATTiny817 devices connected to it over i2c by writing to their EEPROM. 
+The main controller of this project is the ESP-32, it programs the ATTiny817 devices connected to it over i2c by writing to their EEPROM. 
 Parts of the game controller will be initialized by reading the EEPROM of the ATTiny817 devices connected.
 
 
