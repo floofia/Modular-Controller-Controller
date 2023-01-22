@@ -336,6 +336,34 @@ void write_device_dev_type(Adafruit_seesaw ss)
 
 }
 
+//pins
+//1111 1111
+///ADC pins 0, 1, 2, 3, 6, 7, 18, 19, 20
+
+
+//upper 4 of byte
+//19, 18, 7, 6
+//lower 4 of byte
+//3, 2, 1, 0
+//full byte: 19, 18, 7, 6, 3, 2, 1, 0
+
+
+//an example of 0, 2, 7, 19, pins being used would be
+//1010 0101
+//this is written to register 124 as digital
+//register 125 will be used for analog
+
+//let's say we want to wire up a standard joystick 2-axis 1-push-button
+//by default let's do this
+
+
+//used pins: 
+//digital, register 124:  0000 0100
+//analog, register 125:   0000 0011
+
+
+
+
 /* Value stored in register 126 is read
 *  The value determines the device type
 */
