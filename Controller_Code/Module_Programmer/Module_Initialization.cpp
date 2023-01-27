@@ -61,19 +61,31 @@ int digital, analog = 0;
 
 byte_to_pins_read(int pins, bool digital)
 {
+         //0, 1, 2, 3,  6,  7, 18, 19
+mask[9] = {1, 2, 4, 8, 16, 32, 64, 128  }
+used_pins[9] = {0, 1, 2, 3, 6, 7, 18, 19  }
 
-mask[9] = {}
+if (digital == true)
+{
 
-//example 1100 1100
-//1000 0000
-//0100 0000
-//0010 0000
-//0001 0000
-//0000 1000
-//0000 0100
-//0000 0010
-//0000 0001
+for (int i = 0; i < 8; i++)
+{
+if (pins & mask[i] == mask[i]) {used_module.pins_digital[i] = used_pins[i]}
+}
 
+}
+
+
+else
+{
+
+
+for (int i = 0; i < 8; i++)
+{
+if (pins & mask[i] == mask[i]) {used_module.pins_analog[i] = used_pins[i]}
+}
+
+}
 
 }
 
@@ -82,13 +94,19 @@ mask[9] = {}
 Seesaw_module_setup(used_module[] module Adafruit_seesaw[] seesaw_module)
 {
 
+
+if (int j = 0; j < 8; j++)
+{
+
 //digital pin setup
-seesaw_module[i].pinmode(used_module.pins_digital[i], INPUT_PULLUP);
-seesaw_module[i].digitalWrite(used_module.pins_digital[i], HIGH);
+seesaw_module[j].pinmode(used_module.pins_digital[i], INPUT_PULLUP);
+seesaw_module[j].digitalWrite(used_module.pins_digital[i], HIGH);
 
 //analog pin setup
-seesaw_module[i].pinmode(used_module.pins_analog[i], INPUT_PULLUP);
-seesaw_module[i].digitalWrite(used_module.pins_analog[i], HIGH);
+seesaw_module[j].pinmode(used_module.pins_analog[i], INPUT_PULLUP);
+seesaw_module[j].digitalWrite(used_module.pins_analog[i], HIGH);
+
+}
 
 }
 

@@ -188,6 +188,11 @@ void read_device_rom(Adafruit_seesaw ss)
 
 }
 
+
+Address; module_name; dev_type; Digital: 1 2 3 4; Analog: 5 6 7 8;
+
+
+
 /* Write sequence for modifying modules
 */
 void write_device_rom_sequence(Adafruit_seesaw &ss)
