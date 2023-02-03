@@ -70,7 +70,7 @@ if (digital == true)
 
 for (int i = 0; i < 8; i++)
 {
-if (pins & mask[i] == mask[i]) {used_module.pins_digital[i] = used_pins[i]}
+if ((pins & mask[i]) == mask[i]) {used_module.pins_digital[i] = used_pins[i]}
 }
 
 }
@@ -82,7 +82,7 @@ else
 
 for (int i = 0; i < 8; i++)
 {
-if (pins & mask[i] == mask[i]) {used_module.pins_analog[i] = used_pins[i]}
+if ((pins & mask[i]) == mask[i]) {used_module.pins_analog[i] = used_pins[i]}
 }
 
 }
@@ -109,6 +109,12 @@ seesaw_module[j].digitalWrite(used_module.pins_analog[i], HIGH);
 }
 
 }
+
+
+
+
+
+
 
 //notes
 
