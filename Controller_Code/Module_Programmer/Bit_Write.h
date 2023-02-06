@@ -20,6 +20,7 @@ void write_device_rom_sequence(Adafruit_seesaw &ss);
 void write_device_address(Adafruit_seesaw &ss);
 void write_device_mod_name(Adafruit_seesaw ss);
 void write_device_dev_type(Adafruit_seesaw ss);
+void write_device_pins(Adafruit_seesaw &ss);
 String mod_type(int type);
 
 Adafruit_seesaw ss;
@@ -66,7 +67,7 @@ void all_devices_output()
 {
   //redundency check
   i2c_scan();
-  i2c_scan();
+  //i2c_scan();
 
   Serial.println("START");
 
@@ -134,9 +135,10 @@ void read_entire_rom(Adafruit_seesaw ss)
 void read_device_rom(Adafruit_seesaw ss)
 {
   char module_name[64];
-  int pin1, pin2;
+
   int device_type;
   int address, eepromval;
+  int digital_pins, analog_pins;
   String dev_type;
   int i;
 
@@ -149,8 +151,8 @@ void read_device_rom(Adafruit_seesaw ss)
   }
 
   //Serial.print(F("\nPins of Device Used: "));
-  pin1 = ss.EEPROMRead8(124);
-  pin2 = ss.EEPROMRead8(125);
+  digital_pins = ss.EEPROMRead8(124);
+  analog_pins = ss.EEPROMRead8(125);
 
 
   //Serial.print(F("\nDevice Type: "));
@@ -172,20 +174,55 @@ void read_device_rom(Adafruit_seesaw ss)
   //Writing the info to the screen formatted nicely for the 
   // GUI and user to read
   //address
-  Serial.print("Address ");
+  //Serial.print("Address ");
   Serial.print(address);
-  Serial.print(", ");
+  Serial.print("; ");
   //module name
   Serial.print(module_name);
-  Serial.print(", ");
+  Serial.print("; ");
   //device type
-  Serial.print(dev_type);
-  Serial.print(", ");
+  //Serial.print(dev_type);
+  //Serial.print("; ");
   //device
   Serial.print(mod_type(device_type));
+  Serial.print("; ");
+  //digital pins
+  Serial.print(digital_pins);
+  Serial.print("; ");
+  //analog pins
+  Serial.print(analog_pins);
+  Serial.print("; ");
   Serial.println();
+  
+
+}
 
 
+
+
+void write_device_all(Adafruit_seesaw ss)
+{
+
+Serial.println(address);
+Serial.println(module_name);
+Serial.println(dev_type);
+Serial.println(digital_pins);
+Serial.println(analog_pins);
+
+
+
+
+
+
+
+
+
+
+ ss.EEPROMWrite8(124, digital_pins);
+ ss.EEPROMWrite8(125, analog_pins);
+ ss.EEPROMWrite8(126, dev_type);
+ ss.EEPROMWrite8(127, address);
+  
 }
 
 
@@ -202,7 +239,11 @@ void write_device_rom_sequence(Adafruit_seesaw &ss)
 
   write_device_dev_type(ss);
 
+  write_device_pins(ss);
+
   write_device_address(ss);
+
+  
 
   ss.begin();
 }
@@ -251,6 +292,73 @@ void write_device_address(Adafruit_seesaw &ss)
   Serial.println();
 
 }
+
+
+/* Reads and writes register 124 and 125.
+*  This is the register of the device.
+*  The user is  prompted for an address change
+*/
+void write_device_pins(Adafruit_seesaw &ss)
+{
+  for(int i = 0; i < 2; i++)
+  {
+  int address = 0;
+  int eepromval = 0;
+
+
+  if ( i == 0){Serial.print(F("Initial Device Digital Pins: "));}
+  
+  if (i == 1){Serial.print(F("Initial Device Analog Pins: "));}
+  
+  address = ss.EEPROMRead8(124 + i);
+  Serial.print(address);
+  Serial.println();
+  Serial.println();
+  Serial.println("0, 1, 2, 3,  6,  7, 18, 19");
+  Serial.println("Convert binary 0000 0000 to int");
+  Serial.print(F("Enter new Device Pins Used [[between 0 and 127]]: "));
+
+  eepromval = string_convert_int();
+
+  //make sure address is not too low or too high
+  //others issues with reading the device will occur
+  if (!(eepromval > -1 && eepromval < 128))
+  {
+    while (!(eepromval > -1 && eepromval < 128))
+    {
+      Serial.println("0, 1, 2, 3,  6,  7, 18, 19");
+      Serial.println("Convert binary 0000 0000 to int");
+      Serial.print(F("Enter new Device Pins Used [[between 0 and 127]]: "));
+    eepromval = string_convert_int();
+    
+    }
+
+  }
+
+  ss.EEPROMWrite8(124 + i, eepromval);
+
+  address = ss.EEPROMRead8(124 + i);
+    if ( i == 0){Serial.print(F("Digital Pins Register Value: "));}
+    if ( i == 0){Serial.print(F("Analog Pins Register Value: "));}
+  Serial.print(address);
+  Serial.println();
+  Serial.println();
+
+  }
+
+
+
+
+
+  
+
+}
+
+
+
+
+
+
 
 /* First 32 registers are read and outputs to 
 *  The screen. This is the name of the device.
@@ -341,60 +449,60 @@ void write_device_dev_type(Adafruit_seesaw ss)
 
 }
 
-void write_device_pins(Adafruit_seesaw ss)
-{
-
-  int address = 50;
-  int eepromval = 0;
-
-  Serial.print(F("Initial Device Address: "));
-  address = ss.EEPROMRead8(127);
-  Serial.print(address);
-  Serial.println();
-  Serial.println();
-  Serial.print(F("Enter new Device Address [[between 25 and 125]]: "));
-
-  eepromval = string_convert_int();
-
-  //make sure address is not too low or too high
-  //others issues with reading the device will occur
-  if (!(eepromval > 25 && eepromval < 125))
-  {
-    while (!(eepromval > 25 && eepromval < 125))
-    {
-    Serial.println();
-    Serial.println();
-    Serial.print("Enter a value between 25 and 125: ");
-    eepromval = string_convert_int();
-    
-    }
-
-  }
-
-  ss.EEPROMWrite8(127, eepromval);
-
-  ss.begin(eepromval);
- // Serial.print(F("New Device Address: "));
- // address = ss.EEPROMRead8(127);
-  //Serial.print(address);
-  Serial.println();
-  Serial.println();
-  Serial.println();
-
-
-
-
-}
-
-void read_device_pins(Adafruit_seesaw ss)
-{
-
- int address = 124;
-
- 
-
-
-}
+//void write_device_pins(Adafruit_seesaw ss)
+//{
+//
+//  int address = 50;
+//  int eepromval = 0;
+//
+//  Serial.print(F("Initial Device Address: "));
+//  address = ss.EEPROMRead8(127);
+//  Serial.print(address);
+//  Serial.println();
+//  Serial.println();
+//  Serial.print(F("Enter new Device Address [[between 25 and 125]]: "));
+//
+//  eepromval = string_convert_int();
+//
+//  //make sure address is not too low or too high
+//  //others issues with reading the device will occur
+//  if (!(eepromval > 25 && eepromval < 125))
+//  {
+//    while (!(eepromval > 25 && eepromval < 125))
+//    {
+//    Serial.println();
+//    Serial.println();
+//    Serial.print("Enter a value between 25 and 125: ");
+//    eepromval = string_convert_int();
+//    
+//    }
+//
+//  }
+//
+//  ss.EEPROMWrite8(127, eepromval);
+//
+//  ss.begin(eepromval);
+// // Serial.print(F("New Device Address: "));
+// // address = ss.EEPROMRead8(127);
+//  //Serial.print(address);
+//  Serial.println();
+//  Serial.println();
+//  Serial.println();
+//
+//
+//
+//
+//}
+//
+//void read_device_pins(Adafruit_seesaw ss)
+//{
+//
+// int address = 124;
+//
+// 
+//
+//
+//}
 
 
 //pins
@@ -441,7 +549,7 @@ String mod_type(int type)
       dev_type = "Audio";
       break;
     case 0b00100000:
-      dev_type = "Visual Feedback";
+      dev_type = "Visual_Feedback";
       break;
     case 0b00110000:
       dev_type = "Haptic";
@@ -468,6 +576,48 @@ String mod_type(int type)
 
   return dev_type;
 
+
+}
+
+String mod_type(String type)
+{
+
+  int dev_type;
+
+  switch (type) {
+    case "Passive":
+      dev_type = 0b00000000;
+      break;
+    case "Audio":
+      dev_type = 0b00010000;
+      break;
+    case "Visual_Feedback":
+      dev_type = 0b00100000;
+      break;
+    case "Haptic":
+      dev_type = 0b00110000;
+      break;
+    case "D-Pad":
+      dev_type = 0b00000001;
+      break;
+    case "Joystick":
+      dev_type = 0b00000010;
+      break;
+    case "Button":
+      dev_type = 0b00000011;
+      break;
+    case "Keyboard":
+      dev_type = 0b00000100;
+      break;
+    case "Trigger":
+      dev_type = 0b00000101;
+      break;
+    default:
+      dev_type = 0b00000000;
+      break;
+  }
+
+  return dev_type;
 
 }
 
