@@ -16,22 +16,15 @@ Adafruit_seesaw module[8];
 
 
 struct{
-<<<<<<< HEAD
-int module_name;
-=======
 char module_name[64];
->>>>>>> 14fbfdea213f25249e5b60cfb4b58a6601420ef2
 
 int pins_analog[10];
 int pins_digital[10];
 
 int device_type;
 
-<<<<<<< HEAD
-=======
 int address;
 
->>>>>>> 14fbfdea213f25249e5b60cfb4b58a6601420ef2
 }used_module;
 
 
@@ -39,14 +32,6 @@ int address;
 
 Seesaw_read_settings(Adafruit_seesaw module)
 {
-<<<<<<< HEAD
-//use functions from Bit_Write.h (should rename)
-//read analog pin register
-//read digital pins register
-//read device type register
-//and address register
-
-=======
 
 int digital, analog = 0;
 
@@ -70,13 +55,10 @@ int digital, analog = 0;
 
 //read address of module
   used_module.address = ss.EEPROMRead8(127);
->>>>>>> 14fbfdea213f25249e5b60cfb4b58a6601420ef2
 
 }
 
 
-<<<<<<< HEAD
-=======
 byte_to_pins_read(int pins, bool digital)
 {
          //0, 1, 2, 3,  6,  7, 18, 19
@@ -109,23 +91,10 @@ if ((pins & mask[i]) == mask[i]) {used_module.pins_analog[i] = used_pins[i]}
 
 
 
->>>>>>> 14fbfdea213f25249e5b60cfb4b58a6601420ef2
 Seesaw_module_setup(used_module[] module Adafruit_seesaw[] seesaw_module)
 {
 
 
-<<<<<<< HEAD
-//digital pin setup
-seesaw_module[i].pinmode(used_module.pins_digital[j], INPUT_PULLUP);
-seesaw_module[i].digitalWrite(used_module.pins_digital[j], HIGH);
-
-
-//analog pin setup
-seesaw_module[i].pinmode(used_module.pins_analog[j], INPUT_PULLUP);
-seesaw_module[i].digitalWrite(used_module.pins_analog[j], HIGH);
-}
-
-=======
 if (int j = 0; j < 8; j++)
 {
 
@@ -145,7 +114,6 @@ seesaw_module[j].digitalWrite(used_module.pins_analog[i], HIGH);
 
 
 
->>>>>>> 14fbfdea213f25249e5b60cfb4b58a6601420ef2
 
 
 //notes
@@ -154,8 +122,5 @@ seesaw_module[j].digitalWrite(used_module.pins_analog[i], HIGH);
 //If a d-pad is set to a joystick set the values to be max analog value when pushed
 //etc etc add to as needed
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 14fbfdea213f25249e5b60cfb4b58a6601420ef2

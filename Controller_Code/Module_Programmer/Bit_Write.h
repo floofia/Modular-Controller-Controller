@@ -189,7 +189,7 @@ void read_device_rom(Adafruit_seesaw ss)
 }
 
 
-Address; module_name; dev_type; Digital: 1 2 3 4; Analog: 5 6 7 8;
+//Address; module_name; dev_type; Digital: 1 2 3 4; Analog: 5 6 7 8;
 
 
 
@@ -340,6 +340,62 @@ void write_device_dev_type(Adafruit_seesaw ss)
 
 
 }
+
+void write_device_pins(Adafruit_seesaw ss)
+{
+
+  int address = 50;
+  int eepromval = 0;
+
+  Serial.print(F("Initial Device Address: "));
+  address = ss.EEPROMRead8(127);
+  Serial.print(address);
+  Serial.println();
+  Serial.println();
+  Serial.print(F("Enter new Device Address [[between 25 and 125]]: "));
+
+  eepromval = string_convert_int();
+
+  //make sure address is not too low or too high
+  //others issues with reading the device will occur
+  if (!(eepromval > 25 && eepromval < 125))
+  {
+    while (!(eepromval > 25 && eepromval < 125))
+    {
+    Serial.println();
+    Serial.println();
+    Serial.print("Enter a value between 25 and 125: ");
+    eepromval = string_convert_int();
+    
+    }
+
+  }
+
+  ss.EEPROMWrite8(127, eepromval);
+
+  ss.begin(eepromval);
+ // Serial.print(F("New Device Address: "));
+ // address = ss.EEPROMRead8(127);
+  //Serial.print(address);
+  Serial.println();
+  Serial.println();
+  Serial.println();
+
+
+
+
+}
+
+void read_device_pins(Adafruit_seesaw ss)
+{
+
+ int address = 124;
+
+ 
+
+
+}
+
 
 //pins
 //1111 1111
