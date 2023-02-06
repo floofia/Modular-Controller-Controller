@@ -8,7 +8,7 @@
 #define GLOBALS_H
 
 //addresses read from connectec attiny817 devices
-extern int i2c_addresses[5] = {0, 0, 0, 0, 0};
+extern int i2c_addresses[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 //number of connected devices;
 extern int nDevices = 0;
 

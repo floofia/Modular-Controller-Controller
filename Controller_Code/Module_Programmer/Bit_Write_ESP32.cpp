@@ -11,6 +11,7 @@
 #include "serial_setup.h"
 #include "i2c_scan.h"
 #include "Bit_Write.h"
+#include "gui_interface.h"
 
 /* Displays the connected i2c devices to the screen
 *  This can be easily viewed by the user and the GUI

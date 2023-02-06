@@ -126,10 +126,10 @@ void i2c_scan();
           i2c_addresses[nDevices] = address;
           nDevices++;
         }
-           else
-            {
-               Serial.print("ERROR");
-            }
+//           else
+//            {
+//               Serial.println("ERROR");
+//            }
        
         delay(10);           // wait .1 seconds
       }
