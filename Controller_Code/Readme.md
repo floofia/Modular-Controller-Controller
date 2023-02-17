@@ -15,13 +15,7 @@ ____________
 -----------------------------------------------
 # MAP:                                            
     > Controller_code
-        > Module_Button_Test_Code
-            - button_test.cpp
-
         > Module_Initializer   
-            - blink_test.h
-                * blink_setup
-                * blink_tests   
 
         > Module_Programmer
             - Bit_Write_ESP32.cpp
@@ -54,14 +48,6 @@ ____________
 -----------------------------------------------
 
 # FILE DESCRIPTIONS:
-    button_test.cpp
-        Assuming a pre-determined hardware setup, this file is used to
-        show the capability of the ESP32 to function as a controller.
-
-    blink_test.h
-        This file was made to show the ability to identify and process 
-        modules as the same module regardless of the plugin location. 
-                
     Bit_Write_ESP32.cpp
         This file is the main file for handling programming the i2c devices
         it outputs information the GUI can read.
@@ -103,18 +89,6 @@ ____________
     all_devices_output (Bit_write.h)
         This function initializes i2c connected devices
 
-        >Input: none
-        >Output: none
-
-    blink_setup (blink_test.h)
-        This function recieves an array adresses fron i2c_scan.h and sets them up
-
-        >Input: int i2c_addresses[]
-        >Output: none
-
-    blink_tests (blink_test.h)
-        This function reads the adresses and blinks them in ascending order
-        
         >Input: none
         >Output: none
 
@@ -200,7 +174,7 @@ ____________
         >Output: none
 
 
-# EEPROM Notes:
+# EEPROM Notes: 
     EEPROM BYTE MAP
     Byte 0-63 - Name (may shorten to 32 bytes)
     Byte 64-123 - ??? (space for later)
