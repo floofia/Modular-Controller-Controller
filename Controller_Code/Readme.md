@@ -174,7 +174,7 @@ ____________
         >Output: none
 
 
-# EEPROM Notes:
+# EEPROM Notes: 
     EEPROM BYTE MAP
     Byte 0-63 - Name (may shorten to 32 bytes)
     Byte 64-123 - ??? (space for later)
