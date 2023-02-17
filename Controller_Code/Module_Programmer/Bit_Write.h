@@ -111,6 +111,7 @@ void all_devices_buffer()
   }
 
 }
+ 
 
 
 /* Outputs all registers of the EEPROM
