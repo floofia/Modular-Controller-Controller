@@ -38,7 +38,7 @@ int string_convert_int()
 
   while (Serial.available() == 0) {}
 
-  string = Serial.readStringUntil('\0');
+  string = Serial.readStringUntil('\n');
 
   return string.toInt();
 
@@ -56,7 +56,7 @@ String string_read()
   //Waits for the users input
   while (Serial.available() == 0) {}
   //reads until a null terminator
-  string = Serial.readStringUntil('\0');
+  string = Serial.readStringUntil('\n');
 
   return string;
 
