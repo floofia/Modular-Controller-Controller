@@ -15,7 +15,7 @@
 
 
 #include <Wire.h>
-#include "globals.h"
+#include "Global_Variables.h"
 
 //functions   
 void i2c_scan_verbose();

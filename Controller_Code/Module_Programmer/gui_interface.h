@@ -8,8 +8,8 @@
 #ifndef GUI_INTERFACE_H
 #define GUI_INTERFACE_H
 
-#include "globals.h"
-#include "Bit_Write.h"
+#include "Global_Variables.h"
+#include "Module_Read_Write_Functions.h"
 
 void gui_setup (Adafruit_seesaw ss)
 {

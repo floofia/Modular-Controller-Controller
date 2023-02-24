@@ -6,11 +6,11 @@
 */
 
 #include <Arduino.h>
-#include "globals.h"
+#include "Global_Variables.h"
 #include "Adafruit_seesaw.h"
 #include "serial_setup.h"
 #include "i2c_scan.h"
-#include "Bit_Write.h"
+#include "Module_Read_Write_Functions.h"
 #include "gui_interface.h"
 
 /* Displays the connected i2c devices to the screen
