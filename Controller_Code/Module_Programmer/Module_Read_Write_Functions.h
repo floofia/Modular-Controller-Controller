@@ -3,10 +3,10 @@
    written by Duncan McGonagle, Sofia Sadun
    Handles functions that edit the ATTiny817 EEPROM
 */
-#ifndef BIT_WRITE_H
-#define BIT_WRITE_H
+#ifndef MODULE_READ_WRITE_FUNCTIONS_H
+#define MODULE_READ_WRITE_FUNCTIONS_H
 
-#include "globals.h"
+#include "global_variables.h"
 
 
 //functions

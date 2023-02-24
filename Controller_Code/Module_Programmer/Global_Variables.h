@@ -4,8 +4,8 @@
  * File with Global Variables to be used by multiple files
 */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef GLOBAL_VARIABLES_H
+#define GLOBAL_VARIABLES_H
 
 //addresses read from connectec attiny817 devices
 extern int i2c_addresses[8] = {0, 0, 0, 0, 0, 0, 0, 0};
