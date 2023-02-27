@@ -12,10 +12,12 @@
 
 
 //seesaw modules to be initialized
-Adafruit_seesaw module[8];
+//Adafruit_seesaw module[8];
 
 
 struct{
+Adafruit_seesaw mod;
+
 char module_name[64];
 
 int pins_analog[10];
@@ -34,6 +36,35 @@ int address;
 Seesaw_Struct_Name()
 {
 
+used_module modules_used[8];
+
+
+for (int i = 0; i < 8; i++)
+
+
+{
+
+Serial.println("--Modules Output--");
+
+Serial.print("Seesaw: ");
+Serial.println(modules_used[i].mod);
+
+Serial.print("Module Name: ");
+Serial.println(modules_used[i].module_name);
+
+Serial.print("Analog Pins: ");
+Serial.println(modules_used[i].pins_analog);
+
+Serial.print("Digital Pins: ");
+Serial.println(modules_used[i].pins_digital);
+
+Serial.print("Device Type: ");
+Serial.println(modules_used[i].device_type);
+
+Serial.print("Address: ");
+Serial.println(modules_used[i].address);
+
+}
 
 
 
@@ -46,15 +77,7 @@ Seesaw_Struct_Name()
 
 
 
-
-
-
-
-
-
-
-
-Seesaw_read_settings(Adafruit_seesaw module)
+Seesaw_read_settings(used_module module)
 {
 
 int digital, analog = 0;
@@ -85,7 +108,7 @@ int eepromval;
 }
 
 
-byte_to_pins_read(int pins, bool digital)
+byte_to_pins_read(used_module module, int pins, bool digital)
 {
         //0, 1, 2, 3,  6,  7, 18, 19
 int mask[9] = {1, 2, 4, 8, 16, 32, 64, 128  };
@@ -96,7 +119,7 @@ if (digital == true)
 
 for (int i = 0; i < 8; i++)
 {
-if ((pins & mask[i]) == mask[i]) {used_module.pins_digital[i] = used_pins[i]}
+if ((pins & mask[i]) == mask[i]) {module.pins_digital[i] = used_pins[i]}
 }
 
 }
@@ -108,7 +131,7 @@ else
 
 for (int i = 0; i < 8; i++)
 {
-if ((pins & mask[i]) == mask[i]) {used_module.pins_analog[i] = used_pins[i]}
+if ((pins & mask[i]) == mask[i]) {module.pins_analog[i] = used_pins[i]}
 }
 
 }
@@ -117,24 +140,24 @@ if ((pins & mask[i]) == mask[i]) {used_module.pins_analog[i] = used_pins[i]}
 
 
 
-Seesaw_module_setup(used_module[] module, Adafruit_seesaw[] seesaw_module)
-{
+// Seesaw_module_setup(used_module[] module)
+// {
 
 
-if (int j = 0; j < 8; j++)
-{
+// if (int j = 0; j < 8; j++)
+// {
 
-//digital pin setup
-seesaw_module[j].pinmode(used_module.pins_digital[i], INPUT_PULLUP);
-seesaw_module[j].digitalWrite(used_module.pins_digital[i], HIGH);
+// //digital pin setup
+// seesaw_module[j].pinmode(used_module.pins_digital[i], INPUT_PULLUP);
+// seesaw_module[j].digitalWrite(used_module.pins_digital[i], HIGH);
 
-//analog pin setup
-seesaw_module[j].pinmode(used_module.pins_analog[i], INPUT_PULLUP);
-seesaw_module[j].digitalWrite(used_module.pins_analog[i], HIGH);
+// //analog pin setup
+// seesaw_module[j].pinmode(used_module.pins_analog[i], INPUT_PULLUP);
+// seesaw_module[j].digitalWrite(used_module.pins_analog[i], HIGH);
 
-}
+// }
 
-}
+// }
 
 
 //notes
