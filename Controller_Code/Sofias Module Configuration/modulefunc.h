@@ -11,3 +11,10 @@ void rJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss);
 void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss);
 void lJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss);
 void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss);
+void lTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss );
+void rTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss );
+void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
+void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
+void debuggerSetup(int output, char address, Adafruit_seesaw ss);
+void debuggerWrite(int output, bool trigger, bool button, bool joystick
+                   char address, Adafruit_seesaw ss);

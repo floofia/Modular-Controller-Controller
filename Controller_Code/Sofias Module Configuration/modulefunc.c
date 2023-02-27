@@ -59,6 +59,25 @@ void lJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss)
 
 }
 
+/// @brief This is a function that sets up the left trigger
+/// @param top - top button's input pin
+/// @param bottom - bottom button's input pin
+/// @param address the seesaw's address
+/// @param ss the seesw itself
+void lTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss )
+{
+
+}
+
+/// @brief this is a function that sets up the right trigger
+/// @param top - top button's input pin
+/// @param bottom - bottom button's input pin
+/// @param address the seesaw's address
+/// @param ss the seesw itself
+void rTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss )
+{
+
+}
 
 
 /***************/
@@ -70,25 +89,37 @@ void lJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss)
 /// @param bottom - the bottom face button pin# (usually the select button)
 /// @param left - the left face button pin #
 /// @param right - the right face button pin # (usually the decline button)
+/// @param button - a bool that's true when the button module is in use
 /// @param ss - the seesaw in question
-void faceButtonRead (int top, int bottom, int left, int right, 
+void faceButtonRead (int top, int bottom, int left, int right, bool button,
                      Adafruit_seesaw ss)
 {
 
 }
 
-void dpadRead (int up, int down, int left, int right, Adafruit_seesaw ss)
+void dpadRead (int up, int down, int left, int right, bool button, 
+               Adafruit_seesaw ss)
 {
 
 }
 
 
-void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
+void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
 {
 
 }
 
-void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
+void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
+{
+
+}
+
+void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
+{
+
+}
+
+void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
 {
 
 }
