@@ -3,6 +3,10 @@
  * written by Duncan McGonagle
 */
 
+
+#ifndef MODULE_INITIALIZATION_H
+#define MODULE_INITIALIZATION_H
+
 #include <Arduino.h>
 #include "Global_Variables.h"
 #include "Adafruit_seesaw.h"
@@ -11,65 +15,53 @@
 #include "Module_Read_Write_Functions.h"
 
 
-//seesaw modules to be initialized
-//Adafruit_seesaw module[8];
-
-
-struct{
-Adafruit_seesaw mod;
-
-char module_name[64];
-
-int pins_analog[10];
-int pins_digital[10];
-
-int device_type;
-
-int address;
-
-}used_module;
+void Seesaw_Struct_Name(struct used_module &module);
+void Seesaw_read_settings(struct used_module &module, Adafruit_seesaw ss);
+void byte_to_pins_read(struct used_module &module, int pins, bool digital);
 
 
 
 
 
-Seesaw_Struct_Name()
+void Seesaw_Struct_Name(struct used_module &module)
 {
 
-used_module modules_used[8];
 
 
-for (int i = 0; i < 8; i++)
 
-
-{
 
 Serial.println("--Modules Output--");
 
-Serial.print("Seesaw: ");
-Serial.println(modules_used[i].mod);
+//Serial.print("Seesaw: ");
+//Serial.println(modules_used[i].mod);
 
 Serial.print("Module Name: ");
-Serial.println(modules_used[i].module_name);
+Serial.println(module.module_name);
+
 
 Serial.print("Analog Pins: ");
-Serial.println(modules_used[i].pins_analog);
+for (int j = 0; j < 8; j++)
+{
+Serial.print(module.pins_analog[j]);
+Serial.print(" ");
+}
+
+Serial.println();
 
 Serial.print("Digital Pins: ");
-Serial.println(modules_used[i].pins_digital);
+for (int j = 0; j < 8; j++)
+{
+Serial.print(module.pins_digital[j]);
+Serial.print(" ");
+}
+
+Serial.println();
 
 Serial.print("Device Type: ");
-Serial.println(modules_used[i].device_type);
+Serial.println(module.device_type);
 
 Serial.print("Address: ");
-Serial.println(modules_used[i].address);
-
-}
-
-
-
-
-
+Serial.println(module.address);
 
 
 
@@ -77,7 +69,7 @@ Serial.println(modules_used[i].address);
 
 
 
-Seesaw_read_settings(used_module module)
+void Seesaw_read_settings(struct used_module &module, Adafruit_seesaw ss)
 {
 
 int digital, analog = 0;
@@ -86,29 +78,36 @@ int digital, analog = 0;
 
 int eepromval;
 
+
  for (int i = 0; i < 32; i++)
  {
    eepromval = ss.EEPROMRead8(i);
-   used_module.module_name[i] = (char)eepromval;
+   module.module_name[i] = (char)eepromval;
  }
 
 //read which pins are used and if they are analog or digital
  digital = ss.EEPROMRead8(124);
  analog = ss.EEPROMRead8(125);
 
- //convert byte to pins used function
+//load pins into struct byte to pins
+byte_to_pins_read(module, digital, true);
+byte_to_pins_read(module, analog, false);
 
 
 //read device type
- used_module.device_type = ss.EEPROMRead8(126);
+ module.device_type = ss.EEPROMRead8(126);
 
 //read address of module
- used_module.address = ss.EEPROMRead8(127);
+ module.address = ss.EEPROMRead8(127);
 
 }
 
 
-byte_to_pins_read(used_module module, int pins, bool digital)
+
+
+
+
+void byte_to_pins_read(struct used_module &module, int pins, bool digital)
 {
         //0, 1, 2, 3,  6,  7, 18, 19
 int mask[9] = {1, 2, 4, 8, 16, 32, 64, 128  };
@@ -119,7 +118,7 @@ if (digital == true)
 
 for (int i = 0; i < 8; i++)
 {
-if ((pins & mask[i]) == mask[i]) {module.pins_digital[i] = used_pins[i]}
+if ((pins & mask[i]) == mask[i]) { module.pins_digital[i] = used_pins[i]; }
 }
 
 }
@@ -131,7 +130,7 @@ else
 
 for (int i = 0; i < 8; i++)
 {
-if ((pins & mask[i]) == mask[i]) {module.pins_analog[i] = used_pins[i]}
+if ((pins & mask[i]) == mask[i]) { module.pins_analog[i] = used_pins[i]; }
 }
 
 }
@@ -139,6 +138,7 @@ if ((pins & mask[i]) == mask[i]) {module.pins_analog[i] = used_pins[i]}
 }
 
 
+#endif
 
 // Seesaw_module_setup(used_module[] module)
 // {

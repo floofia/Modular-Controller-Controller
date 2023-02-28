@@ -12,6 +12,7 @@
 #include "i2c_scan.h"
 #include "Module_Read_Write_Functions.h"
 #include "gui_interface.h"
+#include "Module_Initialization.h"
 
 /* Displays the connected i2c devices to the screen
    This can be easily viewed by the user and the GUI
@@ -24,6 +25,8 @@ void setup() {
   int attiny_device;
   int gui_select_device;
   int selection;
+
+  used_module module;
 
   serial_setup(115200);
 
@@ -48,7 +51,19 @@ void setup() {
       Serial.println();
       Serial.println("Enter Value of the i2c device you'd like to edit--");
       Serial.println("Or enter -1 for GUI interface: ");
+  
       attiny_device = string_convert_int();
+
+
+
+ 
+
+
+
+
+
+
+
 
       if (attiny_device == -1)
       {
@@ -89,7 +104,7 @@ void setup() {
         selection = 0;
         Serial.println("READ MODULE       [1]");
         Serial.println("Write MODULE      [2]");
-        Serial.println("READ ALL MODULES  [3]");
+        Serial.println("Struct Test       [3]");
         Serial.println();
         Serial.print("Selection: ");
         //reads selection from user
@@ -109,8 +124,15 @@ void setup() {
           write_device_rom_sequence(ss);
           break;
         case 3:
-          //all_devices_output();
+        
+          Seesaw_read_settings(module, ss);
+          Seesaw_Struct_Name(module);
+
+      
           break;
+
+
+          
         default:
           Serial.print("You shouldn't be here");
           break;

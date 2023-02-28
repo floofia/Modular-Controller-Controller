@@ -9,6 +9,9 @@
 
 /* Sets the baud rate and timeout for the serial
 */
+
+#ifndef SERIAL_SETUP_H
+#define SERIAL_SETUP_H
 void serial_setup(int baud)
 {
 Serial.begin(baud);
@@ -18,3 +21,4 @@ Serial.setTimeout(500);
 Serial.println();
 Serial.println();
 }
+#endif
