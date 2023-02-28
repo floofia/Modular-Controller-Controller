@@ -2,6 +2,8 @@
 
 #include "modulefunc.h"
 
+
+BLEGamepad gamepad;
 /*****************/
 /*SETUP FUNCIONS**/
 /*****************/
@@ -126,7 +128,7 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     int dy;
     int  z;
     int lx, ly, lz;
-//    gamepad.getAxes(lx, ly, lz, _, _, _);
+//  gamepad.getAxes(lx, ly, lz, _, _, _);
     if (x == 0 && y == 0)
     {
         joystick = false;
@@ -148,7 +150,7 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     {
         z = -127;
     }
-    Blegamepad.setRZ(z);
+    gamepad.setRZ(z);
     
 
 }
@@ -162,12 +164,20 @@ void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
 {
     if (digitalread(top) == LOW)
     {
-        //BleGamepad.release(BUTTON);
+        //gamepad.release(BUTTON);
     }
     else
     {
-        //BleGamepad.release(BUTTON);
-
+        //gamepad.release(BUTTON);
+    }
+    
+    if (digitalread(top) == LOW)
+    {
+        //gamepad.release(BUTTON);
+    }
+    else
+    {
+        //gamepad.release(BUTTON);
     }
 
 }
