@@ -25,7 +25,7 @@ enum connection_type
    right,      //dpad right
    select,     //select
    start,      //start
-   home,       //home
+   homebutton, //home
    l1,         //left trigger 1
    r1,         //right trigger 1
    l2,         //left trigger 2

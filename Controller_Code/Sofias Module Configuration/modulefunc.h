@@ -1,4 +1,7 @@
-#include <Wire.h>
+//#include <Wire.h>
+
+#ifndef MODULEFUNC_H
+#define MODULEFUNC_H
 #include <BleGamepad.h>
 #include "Adafruit_seesaw.h"
 #include <stdbool.h>
@@ -16,5 +19,8 @@ void rTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss );
 void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
 void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
 void debuggerSetup(int output, char address, Adafruit_seesaw ss);
-void debuggerWrite(int output, bool trigger, bool button, bool joystick,
-                   char address, Adafruit_seesaw ss);
+void debuggerWrite(int output, bool trigger, bool button, bool joystick, char address, 
+                   Adafruit_seesaw ss);
+
+
+#endif

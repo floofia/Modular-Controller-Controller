@@ -150,7 +150,7 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     {
         z = -127;
     }
-    gamepad.setRZ(z);
+    //gamepad.setRZ(z);
     
 
 }
