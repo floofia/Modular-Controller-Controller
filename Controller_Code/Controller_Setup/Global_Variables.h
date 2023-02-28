@@ -26,4 +26,22 @@ extern String names_dev[] = {"###################",
   "###################"};
 
 
+
+
+struct used_module{
+  
+char module_name[64] = "";
+
+int pins_analog[8] = {0, 0, 0, 0, 0, 0, 0, 0}; 
+int pins_digital[8] = {0, 0, 0, 0, 0, 0, 0, 0}; 
+
+int device_type = 0;
+
+int address = 0;
+
+};
+
+extern struct used_module module;
+
+
 #endif
