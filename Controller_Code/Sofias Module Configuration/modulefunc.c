@@ -2,7 +2,6 @@
 
 #include "modulefunc.h"
 
-
 /*****************/
 /*SETUP FUNCIONS**/
 /*****************/
@@ -163,11 +162,11 @@ void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
 {
     if (digitalread(top) == LOW)
     {
-        BleGamepad.release(BUTTON);
+        //BleGamepad.release(BUTTON);
     }
     else
     {
-        BleGamepad.release(BUTTON);
+        //BleGamepad.release(BUTTON);
 
     }
 
