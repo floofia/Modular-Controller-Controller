@@ -15,12 +15,10 @@ ____________
 -----------------------------------------------
 # MAP:                                            
     > Controller_code
-        > Module_Initializer   
+        > Controller_Setup   
+            - Controller_Setup.ino
 
-        > Module_Programmer
-            - Bit_Write_ESP32.cpp
-
-            - Bit_write.h
+            - Module_Read_Write_Functions.h
                 * string_convert_int
                 * string_read
                 * all_devices_output
@@ -33,7 +31,7 @@ ____________
                 * write_device_dev_type
                 * mod_type
 
-            - globals.h
+            - Global_Variables.h
 
             - i2c_scan.h
                 *i2c_scan_verbose
