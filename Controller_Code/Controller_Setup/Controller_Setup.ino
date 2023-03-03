@@ -6,13 +6,7 @@
 */
 
 #include <Arduino.h>
-#include "Global_Variables.h"
-#include "Adafruit_seesaw.h"
-#include "serial_setup.h"
-#include "i2c_scan.h"
-#include "Module_Read_Write_Functions.h"
-#include "gui_interface.h"
-#include "Module_Initialization.h"
+#include "Controller_Setup.h"
 
 /* Displays the connected i2c devices to the screen
    This can be easily viewed by the user and the GUI
@@ -22,129 +16,24 @@
 void setup() {
 
 
-  int attiny_device;
-  int gui_select_device;
-  int selection;
+  //toggle switch
+  pinMode(A0, INPUT_PULLUP);
 
-  used_module module;
 
   serial_setup(115200);
-
   while (!Serial) delay(1000);   // wait until serial port is opened
 
-  while (1)
+
+  //if toggle is HIGH
+  if (digitalRead(A0) == HIGH)
   {
-
-
-
-
-    do
-    {
-      Serial.println();
-      i2c_scan();
-
-      ss.begin(i2c_addresses[0]);
-
-      all_devices_buffer();
-      all_devices_output();
-
-      Serial.println();
-      Serial.println("Enter Value of the i2c device you'd like to edit--");
-      Serial.println("Or enter -1 for GUI interface: ");
-  
-      attiny_device = string_convert_int();
-
-
-
- 
-
-
-
-
-
-
-
-
-      if (attiny_device == -1)
-      {
-        do
-        {
-
-          Serial.println("Enter Value of the i2c device you'd like to edit: ");
-          gui_select_device = string_convert_int();
-        } while (!ss.begin(gui_select_device));
-
-        gui_setup (ss);
-
-      }
-
-
-      if (attiny_device != -1)
-      {
-
-        //Serial.println(attiny_device);
-        Serial.println();
-        Serial.println();
-
-        //check to see if the address entered was valid
-        if (!ss.begin(attiny_device))
-        {
-          Serial.println(F("seesaw failed to start"));
-          Serial.println();
-          all_devices_output();
-        }
-      }
-
-    } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
-
-    if (attiny_device != -1)
-    {
-      //menu for users to see which option they want
-      do {
-        selection = 0;
-        Serial.println("READ MODULE       [1]");
-        Serial.println("Write MODULE      [2]");
-        Serial.println("Struct Test       [3]");
-        Serial.println();
-        Serial.print("Selection: ");
-        //reads selection from user
-        selection = string_convert_int();
-        Serial.println();
-        Serial.println();
-
-      } while ((selection != 1) && (selection != 2) && (selection != 3));
-
-      switch (selection) {
-        case 1:
-          //read_entire_rom(ss);
-          read_device_rom(ss);
-          Serial.println();
-          break;
-        case 2:
-          write_device_rom_sequence(ss);
-          break;
-        case 3:
-        
-          Seesaw_read_settings(module, ss);
-          Seesaw_Struct_Name(module);
-
-      
-          break;
-
-
-          
-        default:
-          Serial.print("You shouldn't be here");
-          break;
-      }
-
-    }
-
-
-    i2c_scan();
-    delay(1000);
-
+    Controller_Programming_Mode();
   }
+  else
+  {
+    Controller_Game_Mode();
+  }
+
 
 }
 
