@@ -19,21 +19,23 @@ extern String names_dev[] = {"###################",
   "Visual -- 32",
   "Haptic -- 48",
   "----------------",
-  "D-Pad -- 1",
-  "Joystick -- 2",
-  "Keyboard -- 4",
-  "Trigger -- 5",
+  "Face Buttons -- 1",
+  "L Trigger -- 2",
+  "R Trigger -- 3",
+  "L Joystick -- 4",
+  "R Joystick -- 5",
+  "D-Pad -- 6",
   "###################"};
 
 
 
-
+//module struct
 struct used_module{
   
 char module_name[64] = "";
 
-int pins_analog[8] = {0, 0, 0, 0, 0, 0, 0, 0}; 
-int pins_digital[8] = {0, 0, 0, 0, 0, 0, 0, 0}; 
+int pins[15] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
+
 
 int device_type = 0;
 

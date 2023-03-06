@@ -140,8 +140,9 @@ void read_device_rom(Adafruit_seesaw ss)
 
   int device_type;
   int address, eepromval;
-  int digital_pins, analog_pins;
+  int pins[15];
   String dev_type;
+
   int i;
 
   //Serial.print(F("\nName of Device: "));
@@ -152,10 +153,12 @@ void read_device_rom(Adafruit_seesaw ss)
     module_name[i] = (char)eepromval;
   }
 
-  //Serial.print(F("\nPins of Device Used: "));
-  digital_pins = ss.EEPROMRead8(124);
-  analog_pins = ss.EEPROMRead8(125);
+  for (int j = 0; j < 15; j++)
+  {
+  
+  pins[j] = ss.EEPROMRead8(70 + j);
 
+  }
 
   //Serial.print(F("\nDevice Type: "));
   device_type = ss.EEPROMRead8(126);
@@ -189,14 +192,18 @@ void read_device_rom(Adafruit_seesaw ss)
   Serial.print(mod_type(device_type));
   Serial.print("; ");
   //digital pins
-  Serial.print("Digital ");
-  Serial.print(digital_pins);
+  Serial.print("Pins: ");
+  for (int k = 0; k < device_type)
+  {
+  Serial.print(pins[k]);
+  Serial.print(", ");
+  }
   Serial.print("; ");
   //analog pins
-  Serial.print("Analog ");
-  Serial.print(analog_pins);
-  Serial.print("; ");
-  Serial.println();
+  //Serial.print("Analog ");
+  //Serial.print(analog_pins);
+  //Serial.print("; ");
+  //Serial.println();
 
 
 }
