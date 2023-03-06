@@ -343,6 +343,20 @@ void write_device_pins(Adafruit_seesaw &ss)
 
 
 
+void write_device_pins_new(Adafruit_seesaw &ss)
+{
+//70 - 84 pins
+//order matters
+//Enter String of used pins from range 0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19
+//example 1 2 3 5 19
+
+//device type detrmines number of pins to read
+
+
+
+
+
+}
 
 
 
