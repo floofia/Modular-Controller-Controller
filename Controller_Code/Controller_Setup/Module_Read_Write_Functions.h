@@ -173,6 +173,19 @@ void read_device_rom(Adafruit_seesaw ss)
     dev_type = "Passive";
   }
 
+
+/*  "Passive -- 0", 
+  "Audio -- 16",
+  "Visual -- 32",
+  "Haptic -- 48",
+  "----------------",
+  "Face Buttons -- 1",
+  "L Trigger -- 2",
+  "R Trigger -- 3",
+  "L Joystick -- 4",
+  "R Joystick -- 5",
+  "D-Pad -- 6", */
+
   //Serial.print(F("\nAddress: "));
   address = ss.EEPROMRead8(127);
 
@@ -243,6 +256,7 @@ void write_device_address(Adafruit_seesaw &ss)
   int address = 50;
   int eepromval = 0;
 
+
   Serial.print(F("Initial Device Address: "));
   address = ss.EEPROMRead8(127);
   Serial.print(address);
@@ -292,58 +306,34 @@ void write_device_pins(Adafruit_seesaw &ss)
     int eepromval = 0;
 
 
-    if ( i == 0) {
-      Serial.print(F("Initial Device Digital Pins: "));
-    }
+Serial.print("Initial Pins: ")
 
-    if (i == 1) {
-      Serial.print(F("Initial Device Analog Pins: "));
-    }
+for(int i = 0; i < 15; i++)
+{
+Serial.print(ss.EEPROMRead8(70 + i))
+Serial.print(",");
+}
+Serial.println();
 
-    address = ss.EEPROMRead8(124 + i);
-    Serial.print(address);
-    Serial.println();
-    Serial.println();
-    Serial.println("0, 1, 2, 3,  6,  7, 18, 19");
-    Serial.println("Convert binary 0000 0000 to int");
-    Serial.print(F("Enter new Device Pins Used [[between 0 and 127]]: "));
 
-    eepromval = string_convert_int();
-
-    //make sure address is not too low or too high
-    //others issues with reading the device will occur
-    if (!(eepromval > -1 && eepromval < 128))
-    {
-      while (!(eepromval > -1 && eepromval < 128))
-      {
-        Serial.println("0, 1, 2, 3,  6,  7, 18, 19");
-        Serial.println("Convert binary 0000 0000 to int");
-        Serial.print(F("Enter new Device Pins Used [[between 0 and 127]]: "));
-        eepromval = string_convert_int();
-
-      }
-
-    }
-
-    ss.EEPROMWrite8(124 + i, eepromval);
-
-    address = ss.EEPROMRead8(124 + i);
-    if ( i == 0) {
-      Serial.print(F("Digital Pins Register Value: "));
-    }
-    if ( i == 0) {
-      Serial.print(F("Analog Pins Register Value: "));
-    }
-    Serial.print(address);
-    Serial.println();
-    Serial.println();
-
-  }
+Serial.println("**Available Pins to use**");
+Serial.println("0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19")
+Serial.println("Enter pins individually, stop with -1")
 
 
 
+for (int j = 0; j < 15; j++)
+{
+
+eepromval = string_convert_int();
 
 
+if (eepromval < 0)
+{
+ss.EEPROMWrite8(70 + j, eepromval);
+}
+
+}
 
 
 }
@@ -551,19 +541,22 @@ String mod_type(int type)
       dev_type = "Haptic";
       break;
     case 0b00000001:
-      dev_type = "D-Pad";
+      dev_type = "Face Buttons";
       break;
     case 0b00000010:
-      dev_type = "Joystick";
+      dev_type = "L Trigger";
       break;
     case 0b00000011:
-      dev_type = "Button";
+      dev_type = "R Trigger";
       break;
     case 0b00000100:
-      dev_type = "Keyboard";
+      dev_type = "L Joystick";
       break;
     case 0b00000101:
-      dev_type = "Trigger";
+      dev_type = "R Joystick";
+      break;
+     case 0b00000110:
+      dev_type = "D-Pad";
       break;
     default:
       dev_type = "default";
@@ -572,6 +565,18 @@ String mod_type(int type)
 
   return dev_type;
 
+
+ /* "Passive -- 0", 
+  "Audio -- 16",
+  "Visual -- 32",
+  "Haptic -- 48",\
+  "----------------",
+  "Face Buttons -- 1",
+  "L Trigger -- 2",
+  "R Trigger -- 3",
+  "L Joystick -- 4",
+  "R Joystick -- 5",
+  "D-Pad -- 6", */
 
 }
 
