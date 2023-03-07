@@ -79,7 +79,6 @@ void Controller_Programming_Mode()
       }
 
       
-
     } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
 
     if (attiny_device != -1)
@@ -121,7 +120,6 @@ void Controller_Programming_Mode()
       }
 
     }
-
 
     i2c_scan();
     delay(1000);

@@ -29,7 +29,6 @@ extern String names_dev[] = {
   "###################"
   };
 
-
 //module struct
 struct used_module{
   
