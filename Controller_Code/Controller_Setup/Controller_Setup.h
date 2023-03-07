@@ -31,6 +31,7 @@ void Controller_Programming_Mode()
 
     do
     {
+      do{
       Serial.println();
       i2c_scan();
 
@@ -44,6 +45,8 @@ void Controller_Programming_Mode()
       Serial.println("Or enter -1 for GUI interface: ");
 
       attiny_device = string_convert_int();
+
+      }while(attiny_device == 200);
 
       if (attiny_device == -1)
       {

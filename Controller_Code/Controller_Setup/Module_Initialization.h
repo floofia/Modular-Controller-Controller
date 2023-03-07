@@ -68,7 +68,6 @@ Serial.println(module.address);
 }
 
 
-
 void Seesaw_read_settings(struct used_module &module, Adafruit_seesaw ss)
 {
 

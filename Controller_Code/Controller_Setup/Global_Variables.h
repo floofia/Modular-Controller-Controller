@@ -13,7 +13,8 @@ extern int i2c_addresses[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 extern int nDevices = 0;
 
 //menu for showing device type options
-extern String names_dev[] = {"###################",
+extern String names_dev[] = {
+  "###################",
   "Passive -- 0", 
   "Audio -- 16",
   "Visual -- 32",
@@ -25,8 +26,8 @@ extern String names_dev[] = {"###################",
   "L Joystick -- 4",
   "R Joystick -- 5",
   "D-Pad -- 6",
-  "###################"};
-
+  "###################"
+  };
 
 
 //module struct
@@ -34,8 +35,7 @@ struct used_module{
   
 char module_name[64] = "";
 
-int pins[15] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
-
+int pins[15] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 int device_type = 0;
 

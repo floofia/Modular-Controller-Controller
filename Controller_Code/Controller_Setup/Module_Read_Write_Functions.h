@@ -262,19 +262,19 @@ void write_device_address(Adafruit_seesaw &ss)
   Serial.print(address);
   Serial.println();
   Serial.println();
-  Serial.print(F("Enter new Device Address [[between 25 and 125]]: "));
+  Serial.print(F("Enter new Device Address [[between 10 and 125]]: "));
 
   eepromval = string_convert_int();
 
   //make sure address is not too low or too high
   //others issues with reading the device will occur
-  if (!(eepromval > 25 && eepromval < 125))
+  if (!(eepromval > 9 && eepromval < 125))
   {
-    while (!(eepromval > 25 && eepromval < 125))
+    while (!(eepromval > 9 && eepromval < 125))
     {
       Serial.println();
       Serial.println();
-      Serial.print("Enter a value between 25 and 125: ");
+      Serial.print("Enter a value between 10 and 125: ");
       eepromval = string_convert_int();
 
     }
@@ -306,43 +306,44 @@ void write_device_pins(Adafruit_seesaw &ss)
     int eepromval = 0;
 
 
-Serial.print("Initial Pins: ")
+Serial.print("Initial Pins: ");
 
 for(int i = 0; i < 15; i++)
 {
-Serial.print(ss.EEPROMRead8(70 + i))
+Serial.print(ss.EEPROMRead8(70 + i));
 Serial.print(",");
 }
 Serial.println();
 
 
 Serial.println("**Available Pins to use**");
-Serial.println("0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19")
-Serial.println("Enter pins individually, stop with -1")
+Serial.println("0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19");
+Serial.println("Enter pins individually, stop with -1");
 
 
+int j = 0;
 
-for (int j = 0; j < 15; j++)
+while (j < 15 || eepromval > 0)
 {
 
 eepromval = string_convert_int();
-
 
 if (eepromval < 0)
 {
 ss.EEPROMWrite8(70 + j, eepromval);
 }
 
+
+if (eepromval > 255)
+{
+ss.EEPROMWrite8(70 + j, 100);
 }
 
+j++;
 
 }
 
-
-
-
-
-
+}
 
 /* First 32 registers are read and outputs to
    The screen. This is the name of the device.
@@ -421,7 +422,8 @@ void write_device_dev_type(Adafruit_seesaw ss)
   Serial.println("Device Types: ");
 
   //return menu stored in globals.h
-  for (int i = 0; i < 13; i++) {
+  for (int i = 0; i < 13; i++) 
+  {
     Serial.println(names_dev[i]);
   }
 
@@ -474,17 +476,12 @@ void write_device_dev_type(Adafruit_seesaw ss)
 //  Serial.println();
 //  Serial.println();
 //  Serial.println();
-//
-//
-//
-//
 //}
 //
 //void read_device_pins(Adafruit_seesaw ss)
 //{
 //
 // int address = 124;
-//
 //
 //
 //
@@ -515,8 +512,6 @@ void write_device_dev_type(Adafruit_seesaw ss)
 //used pins:
 //digital, register 124:  0000 0100
 //analog, register 125:   0000 0011
-
-
 
 
 /* Value stored in register 126 is read
@@ -564,7 +559,7 @@ String mod_type(int type)
   }
 
   return dev_type;
-
+}
 
  /* "Passive -- 0", 
   "Audio -- 16",
@@ -578,7 +573,7 @@ String mod_type(int type)
   "R Joystick -- 5",
   "D-Pad -- 6", */
 
-}
+
 
 int mod_type_int(String type)
 {
@@ -604,28 +599,33 @@ int mod_type_int(String type)
   }
 
 
-  else if (type == "D-Pad") {
+  else if (type == "Face Buttons") {
     dev_type = 0b00000001;
   }
 
 
-  else if (type == "Joystick") {
+  else if (type == "L Trigger") {
     dev_type = 0b00000010;
   }
 
 
-  else if (type == "Button") {
+  else if (type == "R Trigger") {
     dev_type = 0b00000011;
   }
 
 
-  else if (type == "Keyboard") {
+  else if (type == "L Joystick") {
     dev_type = 0b00000100;
   }
 
 
-  else if (type == "Trigger") {
+  else if (type == "R Joystick") {
     dev_type = 0b00000101;
+  }
+
+  
+  else if (type == "D-Pad") {
+    dev_type = 0b00000110;
   }
 
   else {
