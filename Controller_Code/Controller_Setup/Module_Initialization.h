@@ -63,8 +63,6 @@ Serial.println(module.device_type);
 Serial.print("Address: ");
 Serial.println(module.address);
 
-
-
 }
 
 
