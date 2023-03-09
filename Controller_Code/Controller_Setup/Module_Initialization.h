@@ -27,7 +27,7 @@ void Seesaw_Struct_Name(struct used_module &module)
 {
 
 
-
+int j = 0;
 
 
 Serial.println("--Modules Output--");
@@ -39,21 +39,14 @@ Serial.print("Module Name: ");
 Serial.println(module.module_name);
 
 
-Serial.print("Analog Pins: ");
-for (int j = 0; j < 8; j++)
-{
-Serial.print(module.pins_analog[j]);
-Serial.print(" ");
-}
+Serial.print("Pins: ");
 
-Serial.println();
-
-Serial.print("Digital Pins: ");
-for (int j = 0; j < 8; j++)
+for (j = 0; j < 14; j++)
 {
-Serial.print(module.pins_digital[j]);
-Serial.print(" ");
+Serial.print(module.pins[j]);
+Serial.print(", ");
 }
+Serial.print(module.pins[15]);
 
 Serial.println();
 

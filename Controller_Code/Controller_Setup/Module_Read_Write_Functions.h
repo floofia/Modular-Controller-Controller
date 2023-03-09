@@ -25,6 +25,7 @@ String mod_type(int type);
 int mod_type_int(String type);
 
 Adafruit_seesaw ss;
+
 Adafruit_seesaw i2c_outputs[8];
 
 /* Reads string from the user
@@ -143,6 +144,7 @@ void read_device_rom(Adafruit_seesaw ss)
   int pins[15];
   String dev_type;
 
+  int k;
   int i;
 
   //Serial.print(F("\nName of Device: "));
@@ -186,6 +188,8 @@ void read_device_rom(Adafruit_seesaw ss)
   "R Joystick -- 5",
   "D-Pad -- 6", */
 
+int pins_out[7] = {0, 4, 2, 2, 3, 3, 4};
+
   //Serial.print(F("\nAddress: "));
   address = ss.EEPROMRead8(127);
 
@@ -194,29 +198,31 @@ void read_device_rom(Adafruit_seesaw ss)
   //address
   //Serial.print("Address ");
   Serial.print(address);
-  Serial.print("; ");
+  Serial.print(";");
   //module name
   Serial.print(module_name);
-  Serial.print("; ");
+  Serial.print(";");
   //device type
   //Serial.print(dev_type);
   //Serial.print("; ");
   //device
   Serial.print(mod_type(device_type));
-  Serial.print("; ");
-  //digital pins
+  Serial.print(";");
+  //pins
   Serial.print("Pins: ");
-  for (int k = 0; k < device_type)
+  
+  for (k = 0; k < pins_out[device_type] - 1; k++)
   {
   Serial.print(pins[k]);
   Serial.print(", ");
   }
-  Serial.print("; ");
+  Serial.print(pins[k]);
+  Serial.print(";");
   //analog pins
   //Serial.print("Analog ");
   //Serial.print(analog_pins);
   //Serial.print("; ");
-  //Serial.println();
+  Serial.println();
 
 
 }
@@ -268,9 +274,9 @@ void write_device_address(Adafruit_seesaw &ss)
 
   //make sure address is not too low or too high
   //others issues with reading the device will occur
-  if (!(eepromval > 9 && eepromval < 125))
+  if (!(eepromval > 9 && eepromval < 126))
   {
-    while (!(eepromval > 9 && eepromval < 125))
+    while (!(eepromval > 9 && eepromval < 126))
     {
       Serial.println();
       Serial.println();
@@ -300,8 +306,7 @@ void write_device_address(Adafruit_seesaw &ss)
 */
 void write_device_pins(Adafruit_seesaw &ss)
 {
-  for (int i = 0; i < 2; i++)
-  {
+  
     int address = 0;
     int eepromval = 0;
 
@@ -313,35 +318,53 @@ for(int i = 0; i < 15; i++)
 Serial.print(ss.EEPROMRead8(70 + i));
 Serial.print(",");
 }
+
 Serial.println();
 
 
 Serial.println("**Available Pins to use**");
 Serial.println("0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19");
-Serial.println("Enter pins individually, stop with -1");
+Serial.println("Enter pins individually, stop with -1: ");
 
 
 int j = 0;
+int i =0;
 
-while (j < 15 || eepromval > 0)
+//loop until all 15 pins are entered or eeprom is less than 0
+while ((j < 15))
 {
 
 eepromval = string_convert_int();
 
-if (eepromval < 0)
+Serial.println(eepromval);
+
+if ((eepromval > -1) && (eepromval < 21))
 {
 ss.EEPROMWrite8(70 + j, eepromval);
 }
-
-
-if (eepromval > 255)
+else
 {
 ss.EEPROMWrite8(70 + j, 100);
+Serial.println("Invalid Value, setting to 100");
+eepromval = -1;
+j = 100;
 }
 
 j++;
 
 }
+
+
+Serial.print("Updated Pins: ");
+
+for(i = 0; i < 14; i++)
+{
+Serial.print(ss.EEPROMRead8(70 + i));
+Serial.print(",");
+}
+
+Serial.print(ss.EEPROMRead8(70 + i));
+Serial.println();
 
 }
 

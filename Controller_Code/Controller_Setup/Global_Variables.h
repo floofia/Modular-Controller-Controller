@@ -42,7 +42,10 @@ int address = 0;
 
 };
 
-extern struct used_module module;
+extern struct used_module module[8];
 
+extern struct BleGamepad gamepad;
+
+extern struct Adafruit_seesaw ssa[8];
 
 #endif
