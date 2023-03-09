@@ -14,9 +14,8 @@
 /// @param bottom - the bottom face button (usually the select button)
 /// @param left - the left face button
 /// @param right - the right face button (usually the decline button)
-/// @param address - the seesaw's address
 /// @param ss - the seesaw in question
-void faceButtonSetup (int top, int bottom, int left, int right, char address, 
+void faceButtonSetup (int top, int bottom, int left, int right, 
                       Adafruit_seesaw ss)
 {
     ss.pinMode(top, INPUT);
@@ -31,10 +30,8 @@ void faceButtonSetup (int top, int bottom, int left, int right, char address,
 /// @param down - the bottom button pin (used to navigate down)
 /// @param left - the left button pin (used to navigate lefy)
 /// @param right - the right button pin (used to navigate right)
-/// @param address - the seesaw's address
 /// @param ss - the seesaw in question
-void dpadSetup (int up, int down, int left, int right, char address, 
-                Adafruit_seesaw ss)
+void dpadSetup (int up, int down, int left, int right, Adafruit_seesaw ss)
 {
     ss.pinMode(up, INPUT);
     ss.pinMode(down, INPUT);
@@ -48,9 +45,8 @@ void dpadSetup (int up, int down, int left, int right, char address,
 /// @param x - x input pin (left and right movement)
 /// @param y - y input pin (up and down movement) 
 /// @param select - joystick button press pin (joystick is pressed in)
-/// @param address - the see saw's adress
 /// @param ss - the seesaw in question
-void rJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss)
+void rJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 {
     ss.pinMode(x, INPUT);
     ss.pinMode(y, INPUT);
@@ -63,9 +59,8 @@ void rJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss)
 /// @param x - x input pin (left and right movement)
 /// @param y - y input pin (up and down movement) 
 /// @param select - joystick button press pin (joystick is pressed in)
-/// @param address - the see saw's adress
 /// @param ss - the seesaw in question
-void lJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss)
+void lJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 {
     ss.pinMode(x, INPUT);
     ss.pinMode(y, INPUT);
@@ -76,9 +71,8 @@ void lJoystickSetup(int x, int y, int select, char address, Adafruit_seesaw ss)
 /// @brief This is a function that sets up the left trigger
 /// @param top - top button's input pin
 /// @param bottom - bottom button's input pin
-/// @param address the seesaw's address
 /// @param ss the seesw itself
-void lTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss )
+void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 {
     ss.pinMode(top, INPUT);
     ss.pinMode(bottom, INPUT);
@@ -88,9 +82,8 @@ void lTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss )
 /// @brief this is a function that sets up the right trigger
 /// @param top - top button's input pin
 /// @param bottom - bottom button's input pin
-/// @param address the seesaw's address
 /// @param ss the seesw itself
-void rTriggerSetup ( int top, int bottom, char address, Adafruit_seesaw ss )
+void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 {
     ss.pinMode(top, INPUT);
     ss.pinMode(bottom, INPUT);

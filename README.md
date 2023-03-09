@@ -15,15 +15,4 @@ Parts of the game controller will be initialized by reading the EEPROM of the AT
 Modules are ATTiny817 devices that connect to the ESP-32. They are initialized by the ESP-32 by reading their EEPROM. 
 The ATTiny817 will have joystics, buttons, triggers, etc which will serve as inputs for the user.
 
-
-## Team
-- Sofia Sadun
-- Duncan Thomas McGonagle
-- Hannah Carroll
-
-
-## Advisors
-- Brian Butterfield (brian.butterfield@sdsmt.edu)
-- Ed Mandy (ed@7400circuits.com)
-
 ## [Project Wiki](https://gitlab.com/groups/sdmines/sd/2022/11/-/wikis/home)
