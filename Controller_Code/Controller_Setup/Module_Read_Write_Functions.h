@@ -140,8 +140,9 @@ void read_device_rom(Adafruit_seesaw ss)
 
   int device_type;
   int address, eepromval;
-  int digital_pins, analog_pins;
+  int pins[15];
   String dev_type;
+
   int i;
 
   //Serial.print(F("\nName of Device: "));
@@ -152,10 +153,12 @@ void read_device_rom(Adafruit_seesaw ss)
     module_name[i] = (char)eepromval;
   }
 
-  //Serial.print(F("\nPins of Device Used: "));
-  digital_pins = ss.EEPROMRead8(124);
-  analog_pins = ss.EEPROMRead8(125);
+  for (int j = 0; j < 15; j++)
+  {
+  
+  pins[j] = ss.EEPROMRead8(70 + j);
 
+  }
 
   //Serial.print(F("\nDevice Type: "));
   device_type = ss.EEPROMRead8(126);
@@ -169,6 +172,19 @@ void read_device_rom(Adafruit_seesaw ss)
   if (device_type == 0) {
     dev_type = "Passive";
   }
+
+
+/*  "Passive -- 0", 
+  "Audio -- 16",
+  "Visual -- 32",
+  "Haptic -- 48",
+  "----------------",
+  "Face Buttons -- 1",
+  "L Trigger -- 2",
+  "R Trigger -- 3",
+  "L Joystick -- 4",
+  "R Joystick -- 5",
+  "D-Pad -- 6", */
 
   //Serial.print(F("\nAddress: "));
   address = ss.EEPROMRead8(127);
@@ -189,14 +205,18 @@ void read_device_rom(Adafruit_seesaw ss)
   Serial.print(mod_type(device_type));
   Serial.print("; ");
   //digital pins
-  Serial.print("Digital ");
-  Serial.print(digital_pins);
+  Serial.print("Pins: ");
+  for (int k = 0; k < device_type)
+  {
+  Serial.print(pins[k]);
+  Serial.print(", ");
+  }
   Serial.print("; ");
   //analog pins
-  Serial.print("Analog ");
-  Serial.print(analog_pins);
-  Serial.print("; ");
-  Serial.println();
+  //Serial.print("Analog ");
+  //Serial.print(analog_pins);
+  //Serial.print("; ");
+  //Serial.println();
 
 
 }
@@ -236,24 +256,25 @@ void write_device_address(Adafruit_seesaw &ss)
   int address = 50;
   int eepromval = 0;
 
+
   Serial.print(F("Initial Device Address: "));
   address = ss.EEPROMRead8(127);
   Serial.print(address);
   Serial.println();
   Serial.println();
-  Serial.print(F("Enter new Device Address [[between 25 and 125]]: "));
+  Serial.print(F("Enter new Device Address [[between 10 and 125]]: "));
 
   eepromval = string_convert_int();
 
   //make sure address is not too low or too high
   //others issues with reading the device will occur
-  if (!(eepromval > 25 && eepromval < 125))
+  if (!(eepromval > 9 && eepromval < 125))
   {
-    while (!(eepromval > 25 && eepromval < 125))
+    while (!(eepromval > 9 && eepromval < 125))
     {
       Serial.println();
       Serial.println();
-      Serial.print("Enter a value between 25 and 125: ");
+      Serial.print("Enter a value between 10 and 125: ");
       eepromval = string_convert_int();
 
     }
@@ -285,81 +306,44 @@ void write_device_pins(Adafruit_seesaw &ss)
     int eepromval = 0;
 
 
-    if ( i == 0) {
-      Serial.print(F("Initial Device Digital Pins: "));
-    }
+Serial.print("Initial Pins: ");
 
-    if (i == 1) {
-      Serial.print(F("Initial Device Analog Pins: "));
-    }
-
-    address = ss.EEPROMRead8(124 + i);
-    Serial.print(address);
-    Serial.println();
-    Serial.println();
-    Serial.println("0, 1, 2, 3,  6,  7, 18, 19");
-    Serial.println("Convert binary 0000 0000 to int");
-    Serial.print(F("Enter new Device Pins Used [[between 0 and 127]]: "));
-
-    eepromval = string_convert_int();
-
-    //make sure address is not too low or too high
-    //others issues with reading the device will occur
-    if (!(eepromval > -1 && eepromval < 128))
-    {
-      while (!(eepromval > -1 && eepromval < 128))
-      {
-        Serial.println("0, 1, 2, 3,  6,  7, 18, 19");
-        Serial.println("Convert binary 0000 0000 to int");
-        Serial.print(F("Enter new Device Pins Used [[between 0 and 127]]: "));
-        eepromval = string_convert_int();
-
-      }
-
-    }
-
-    ss.EEPROMWrite8(124 + i, eepromval);
-
-    address = ss.EEPROMRead8(124 + i);
-    if ( i == 0) {
-      Serial.print(F("Digital Pins Register Value: "));
-    }
-    if ( i == 0) {
-      Serial.print(F("Analog Pins Register Value: "));
-    }
-    Serial.print(address);
-    Serial.println();
-    Serial.println();
-
-  }
-
-
-
-
-
-
-
-}
-
-
-
-void write_device_pins_new(Adafruit_seesaw &ss)
+for(int i = 0; i < 15; i++)
 {
-//70 - 84 pins
-//order matters
-//Enter String of used pins from range 0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19
-//example 1 2 3 5 19
-
-//device type detrmines number of pins to read
+Serial.print(ss.EEPROMRead8(70 + i));
+Serial.print(",");
+}
+Serial.println();
 
 
+Serial.println("**Available Pins to use**");
+Serial.println("0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19");
+Serial.println("Enter pins individually, stop with -1");
 
 
+int j = 0;
 
+while (j < 15 || eepromval > 0)
+{
+
+eepromval = string_convert_int();
+
+if (eepromval < 0)
+{
+ss.EEPROMWrite8(70 + j, eepromval);
 }
 
 
+if (eepromval > 255)
+{
+ss.EEPROMWrite8(70 + j, 100);
+}
 
+j++;
+
+}
+
+}
 
 /* First 32 registers are read and outputs to
    The screen. This is the name of the device.
@@ -438,7 +422,8 @@ void write_device_dev_type(Adafruit_seesaw ss)
   Serial.println("Device Types: ");
 
   //return menu stored in globals.h
-  for (int i = 0; i < 13; i++) {
+  for (int i = 0; i < 13; i++) 
+  {
     Serial.println(names_dev[i]);
   }
 
@@ -491,17 +476,12 @@ void write_device_dev_type(Adafruit_seesaw ss)
 //  Serial.println();
 //  Serial.println();
 //  Serial.println();
-//
-//
-//
-//
 //}
 //
 //void read_device_pins(Adafruit_seesaw ss)
 //{
 //
 // int address = 124;
-//
 //
 //
 //
@@ -534,8 +514,6 @@ void write_device_dev_type(Adafruit_seesaw ss)
 //analog, register 125:   0000 0011
 
 
-
-
 /* Value stored in register 126 is read
    The value determines the device type
 */
@@ -558,19 +536,22 @@ String mod_type(int type)
       dev_type = "Haptic";
       break;
     case 0b00000001:
-      dev_type = "D-Pad";
+      dev_type = "Face Buttons";
       break;
     case 0b00000010:
-      dev_type = "Joystick";
+      dev_type = "L Trigger";
       break;
     case 0b00000011:
-      dev_type = "Button";
+      dev_type = "R Trigger";
       break;
     case 0b00000100:
-      dev_type = "Keyboard";
+      dev_type = "L Joystick";
       break;
     case 0b00000101:
-      dev_type = "Trigger";
+      dev_type = "R Joystick";
+      break;
+     case 0b00000110:
+      dev_type = "D-Pad";
       break;
     default:
       dev_type = "default";
@@ -578,9 +559,21 @@ String mod_type(int type)
   }
 
   return dev_type;
-
-
 }
+
+ /* "Passive -- 0", 
+  "Audio -- 16",
+  "Visual -- 32",
+  "Haptic -- 48",\
+  "----------------",
+  "Face Buttons -- 1",
+  "L Trigger -- 2",
+  "R Trigger -- 3",
+  "L Joystick -- 4",
+  "R Joystick -- 5",
+  "D-Pad -- 6", */
+
+
 
 int mod_type_int(String type)
 {
@@ -606,28 +599,33 @@ int mod_type_int(String type)
   }
 
 
-  else if (type == "D-Pad") {
+  else if (type == "Face Buttons") {
     dev_type = 0b00000001;
   }
 
 
-  else if (type == "Joystick") {
+  else if (type == "L Trigger") {
     dev_type = 0b00000010;
   }
 
 
-  else if (type == "Button") {
+  else if (type == "R Trigger") {
     dev_type = 0b00000011;
   }
 
 
-  else if (type == "Keyboard") {
+  else if (type == "L Joystick") {
     dev_type = 0b00000100;
   }
 
 
-  else if (type == "Trigger") {
+  else if (type == "R Joystick") {
     dev_type = 0b00000101;
+  }
+
+  
+  else if (type == "D-Pad") {
+    dev_type = 0b00000110;
   }
 
   else {

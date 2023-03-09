@@ -19,7 +19,6 @@
 void Controller_Programming_Mode()
 {
 
-
   int attiny_device;
   int gui_select_device;
   int selection;
@@ -31,6 +30,7 @@ void Controller_Programming_Mode()
 
     do
     {
+      do{
       Serial.println();
       i2c_scan();
 
@@ -45,6 +45,8 @@ void Controller_Programming_Mode()
 
       attiny_device = string_convert_int();
 
+      }while(attiny_device == 200);
+
       if (attiny_device == -1)
       {
         do
@@ -54,7 +56,7 @@ void Controller_Programming_Mode()
           gui_select_device = string_convert_int();
         } while (!ss.begin(gui_select_device));
 
-        gui_setup (ss);
+        gui_setup(ss);
 
       }
 
@@ -69,14 +71,13 @@ void Controller_Programming_Mode()
         //check to see if the address entered was valid
         if (!ss.begin(attiny_device))
         {
-          Serial.println(F("seesaw failed to start"));
+          Serial.println("seesaw failed to start");
           Serial.println();
           all_devices_output();
         }
       }
 
       
-
     } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
 
     if (attiny_device != -1)
@@ -118,7 +119,6 @@ void Controller_Programming_Mode()
       }
 
     }
-
 
     i2c_scan();
     delay(1000);
