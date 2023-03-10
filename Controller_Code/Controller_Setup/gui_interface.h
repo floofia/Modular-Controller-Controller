@@ -22,12 +22,10 @@ void gui_setup (Adafruit_seesaw ss)
   String address;
   String module_name;
   String dev_type;
-  String digital_pins;
-  String analog_pins;
-
+  String pins;
+  
   int int_address;
-  int int_digital_pins;
-  int int_analog_pins;
+  int int_pin[15] = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
   int int_dev_type;
 
   //String str, full_read;
@@ -35,7 +33,7 @@ void gui_setup (Adafruit_seesaw ss)
 
   Serial.println("Begin GUI Interface");
   Serial.print("Format Expected: ");
-  Serial.println("Address; module_name; dev_type; Digital_pins; Analog_pins;");
+  Serial.println("Address;module_name;dev_type;Pins: 1, 2, 3, 4, 5;");
 
   input = string_read();
 
@@ -59,34 +57,59 @@ void gui_setup (Adafruit_seesaw ss)
   address = strs[0];
   module_name = strs[1];
   dev_type = strs[2];
-  digital_pins = strs[3];
-  analog_pins = strs[4];
+  pins = strs[3];
+
+//converting pins string to array of integers
+  int numCount = 0;//elements in array
+
+  int pos = pins.indexOf(":") + 1;//extract values after :
+
+  while (pos < pins.length()) 
+  {
+    String numStr = "";
+
+    while (pos < pins.length() && isDigit(pins.charAt(pos)))
+     {
+      numStr += pins.charAt(pos++);//append digits from string
+    }
+
+    if (numStr != "") 
+    {
+      int num = numStr.toInt();//convert string to int
+      pins[numCount++] = num;//add int to array
+    }
+
+    pos++;//skip comma or space after number
+  }
+
 
 
   int_address = address.toInt();
-  int_digital_pins = digital_pins.toInt();
-  int_analog_pins = analog_pins.toInt();
   int_dev_type = mod_type_int(dev_type);
-
-
   module_name.toCharArray(module_name_char, 32);
 
-
+//write module name
   for (int i = 0; i < 32; i++)
   {
     ss.EEPROMWrite8(i, module_name_char[i]);
   }
 
+//write pins
+for (int i = 0; i < 32; i++)
+{
+ss.EEPROMWrite8(70 + i, int_pin[i]);
+}
 
 
-  if (!(int_address > 127) || !(int_digital_pins > 255) || !(int_analog_pins > 255) || !(int_address < 0) || !(int_digital_pins < 0) || !(int_analog_pins < 0))
+
+  if ((int_address < 127) || (int_address > 0) )
   {
 
-    ss.EEPROMWrite8(124, int_digital_pins);
-    ss.EEPROMWrite8(125, int_analog_pins);
     ss.EEPROMWrite8(126, int_dev_type);
+
     ss.EEPROMWrite8(127, int_address);
-  }
+
+   }
   else
   {
 
