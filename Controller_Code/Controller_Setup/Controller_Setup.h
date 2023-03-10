@@ -152,8 +152,7 @@ void Controller_Programming_Mode()
 
         case 4:
 
-       
-
+      
           gamepad.begin();
 
           bool button;
@@ -205,7 +204,10 @@ void Controller_Game_Mode()
 
 
 
-void setup_all(struct used_module &module, Adafruit_seesaw ss)
+void setup_all(struct used_module &module[], Adafruit_seesaw ss[])
+{
+
+for (int i = 0; i < nDevices; i++)
 {
 
   if (module.address > 9 && module.address < 20)
@@ -217,6 +219,7 @@ void setup_all(struct used_module &module, Adafruit_seesaw ss)
     dpadSetup(module.pins[0], module.pins[1], module.pins[2], module.pins[3], 10, i2c_outputs[0]);
   }
 
+}
 
 }
 
@@ -226,6 +229,20 @@ void setup_all(struct used_module &module, Adafruit_seesaw ss)
 //
 //
 //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
