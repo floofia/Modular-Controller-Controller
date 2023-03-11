@@ -31,7 +31,8 @@ void setup() {
   }
   else
   {
-    Controller_Game_Mode();
+    Controller_Programming_Mode();
+    //Controller_Game_Mode();
   }
 
 

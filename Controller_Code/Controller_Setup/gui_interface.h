@@ -76,7 +76,7 @@ void gui_setup (Adafruit_seesaw ss)
     if (numStr != "") 
     {
       int num = numStr.toInt();//convert string to int
-      pins[numCount++] = num;//add int to array
+      int_pin[numCount++] = num;//add int to array
     }
 
     pos++;//skip comma or space after number
@@ -95,14 +95,14 @@ void gui_setup (Adafruit_seesaw ss)
   }
 
 //write pins
-for (int i = 0; i < 32; i++)
+for (int i = 0; i < 15; i++)
 {
 ss.EEPROMWrite8(70 + i, int_pin[i]);
 }
 
 
 
-  if ((int_address < 127) || (int_address > 0) )
+  if ((int_address < 127) && (int_address > 0) )
   {
 
     ss.EEPROMWrite8(126, int_dev_type);

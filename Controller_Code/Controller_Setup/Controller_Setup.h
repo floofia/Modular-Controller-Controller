@@ -83,11 +83,22 @@ void Controller_Programming_Mode()
 
       if (attiny_device == -1)
       {
+        
         do
         {
 
           Serial.println("Enter Value of the i2c device you'd like to edit: ");
+
+          
           gui_select_device = string_convert_int();
+
+          if (ss.begin(gui_select_device))
+          {
+          gui_setup(ss);
+          }
+
+          ss.begin(gui_select_device);
+          
         } while (!ss.begin(gui_select_device));
 
 
@@ -204,24 +215,24 @@ void Controller_Game_Mode()
 
 
 
-void setup_all(struct used_module &module[], Adafruit_seesaw ss[])
-{
-
-for (int i = 0; i < nDevices; i++)
-{
-
-  if (module.address > 9 && module.address < 20)
-  {
-    faceButtonSetup(module.pins[0], module.pins[1], module.pins[2], module.pins[3], 10, i2c_outputs[1]);
-  }
-  if (module.address > 19 && module.address < 30)
-  {
-    dpadSetup(module.pins[0], module.pins[1], module.pins[2], module.pins[3], 10, i2c_outputs[0]);
-  }
-
-}
-
-}
+//void setup_all(struct used_module &module[], Adafruit_seesaw ss[])
+//{
+//
+//for (int i = 0; i < nDevices; i++)
+//{
+//
+//  if (module.address > 9 && module.address < 20)
+//  {
+//    faceButtonSetup(module.pins[0], module.pins[1], module.pins[2], module.pins[3], 10, i2c_outputs[1]);
+//  }
+//  if (module.address > 19 && module.address < 30)
+//  {
+//    dpadSetup(module.pins[0], module.pins[1], module.pins[2], module.pins[3], 10, i2c_outputs[0]);
+//  }
+//
+//}
+//
+//}
 
 //void read_all(struct used_module &module[], Adafruit_seesaw i2c_outputs[])
 //{
