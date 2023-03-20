@@ -9,7 +9,7 @@
 #include <Wire.h>
 
 
-BleGamepad gamepad;
+//BleGamepad gamepad;
 
 
 ////////////////////////
