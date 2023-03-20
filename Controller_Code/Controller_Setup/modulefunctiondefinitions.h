@@ -111,7 +111,7 @@ void faceButtonRead (int top, int bottom, int left, int right, //bool button,
     //button = false;
 
     //process the top button input
-    if (digitalRead(top))
+    if (ss.digitalRead(top) == LOW)
     {
         gamepad.press(BUTTON_4);
         //button = true;
@@ -122,7 +122,7 @@ void faceButtonRead (int top, int bottom, int left, int right, //bool button,
     }
 
     //process bottom button input
-    if (digitalRead(bottom))
+    if (ss.digitalRead(bottom) == LOW)
     {
         gamepad.press(BUTTON_1);
         //button = true;
@@ -133,7 +133,7 @@ void faceButtonRead (int top, int bottom, int left, int right, //bool button,
     }
 
     //process left button input
-    if (digitalRead(left))
+    if (ss.digitalRead(left) == LOW)
     {
         gamepad.press(BUTTON_3);
         //button = true;
@@ -144,7 +144,7 @@ void faceButtonRead (int top, int bottom, int left, int right, //bool button,
     }
     
     //process right button input
-    if (digitalRead(right))
+    if (ss.digitalRead(right) == LOW)
     {
         gamepad.press(BUTTON_2);
         //button = true;
@@ -171,7 +171,7 @@ void dpadRead (int up, int down, int left, int right, //bool button,
     //button = false;
 
     //process the up button input
-    if (digitalRead(up))
+    if (ss.digitalRead(up) == LOW)
     {
         gamepad.press(BUTTON_13);
         //button = true;
@@ -182,7 +182,7 @@ void dpadRead (int up, int down, int left, int right, //bool button,
     }
 
     //process down button input
-    if (digitalRead(down))
+    if (ss.digitalRead(down) == LOW)
     {
         gamepad.press(BUTTON_14);
         //button = true;
@@ -193,7 +193,7 @@ void dpadRead (int up, int down, int left, int right, //bool button,
     }
 
     //process left button input
-    if (digitalRead(left))
+    if (ss.digitalRead(left) == LOW)
     {
         gamepad.press(BUTTON_15);
         //button = true;
@@ -204,7 +204,7 @@ void dpadRead (int up, int down, int left, int right, //bool button,
     }
     
     //process right button input
-    if (digitalRead(right))
+    if (ss.digitalRead(right) == LOW)
     {
         gamepad.press(BUTTON_16);
         //button = true;
@@ -254,7 +254,7 @@ void rJoystickRead(int x, int y, int select,  Adafruit_seesaw ss) //bool joystic
     gamepad.setRightThumb(dx,dy);
     
     //read button press
-    if (digitalRead(select) == HIGH)
+    if (ss.digitalRead(select) == HIGH)
     {      
         gamepad.press(BUTTON_12);
         //joystick = true;
@@ -300,7 +300,7 @@ void lJoystickRead(int x, int y, int select,  Adafruit_seesaw ss) //bool joystic
     gamepad.setLeftThumb(dx,dy);
 
     //read button press
-    if (digitalRead(select) == HIGH)
+    if (ss.digitalRead(select) == HIGH)
     {  
         gamepad.press(BUTTON_11);
         //joystick = true;
@@ -322,9 +322,9 @@ void lJoystickRead(int x, int y, int select,  Adafruit_seesaw ss) //bool joystic
 /// @param ss - the seesaw in question
 void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )//bool trigger,
 {
-  bool t = digitalRead(top);
-  bool b = digitalRead(bottom);
-    if ( t == LOW && b == LOW)
+  bool t = ss.digitalRead(top);
+  bool b = ss.digitalRead(bottom);
+    if ( t == HIGH && b == HIGH)
     {
         gamepad.release(BUTTON_5);
         gamepad.release(BUTTON_7);
@@ -361,9 +361,9 @@ void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )//bool trigger,
 /// @param ss - the seesaw in question
 void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss ) //bool trigger,
 {
-  bool t = digitalRead(top);
-  bool b = digitalRead(bottom);
-    if ( t == LOW && b == LOW)
+  bool t = ss.digitalRead(top);
+  bool b = ss.digitalRead(bottom);
+    if ( t == HIGH && b == HIGH)
     {
         gamepad.release(BUTTON_6);
         gamepad.release(BUTTON_8);
