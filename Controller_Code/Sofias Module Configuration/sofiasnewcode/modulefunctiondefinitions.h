@@ -1,6 +1,5 @@
 #ifndef MODULEFUNCDEFINITIONS_H_
 #define MODULEFUNCDEFINITIONS_H_
-
 #include "modulefuncheader.h"
 
 /////////////////////////
@@ -411,7 +410,12 @@ void debuggerWrite(int output, Adafruit_seesaw ss)
   // if joystick output red
   // if buttons output green
   // if trigger output blue
-  
+  // if none do not output to LED
+  //if (module == 0)
+  //ss.analogWrite(output, )
+
+  //portb 2 is our analog output
+  // standard is pin 9
 
 
 
