@@ -1,9 +1,9 @@
 #ifndef MODULEFUNCHEADER_H_
 #define MODULEFUNCHEADER_H_
 
-#include <BleConnectionStatus.h>
+//#include <BleConnectionStatus.h>
 #include <BleGamepad.h>
-#include <BleGamepadConfiguration.h>
+//#include <BleGamepadConfiguration.h>
 #include "Adafruit_seesaw.h"
 #include <stdbool.h>
 #include <Wire.h>

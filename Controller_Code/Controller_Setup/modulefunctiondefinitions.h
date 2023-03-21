@@ -9,6 +9,9 @@
 ////*****************////
 /////////////////////////
 
+bool button;
+bool joystick;
+
 /// @brief This function sets up and defines the pins of the seesaw
 /// @param top - the top face button
 /// @param bottom - the bottom face button (usually the select button)
@@ -18,10 +21,10 @@
 void faceButtonSetup (int top, int bottom, int left, int right,
                       Adafruit_seesaw ss)
 {
-  ss.pinMode(top, INPUT);
-  ss.pinMode(bottom, INPUT);
-  ss.pinMode(left, INPUT);
-  ss.pinMode(right, INPUT);
+  ss.pinMode(top, INPUT_PULLUP);
+  ss.pinMode(bottom, INPUT_PULLUP);
+  ss.pinMode(left, INPUT_PULLUP);
+  ss.pinMode(right, INPUT_PULLUP);
 
 }
 /// @brief This function sets up and defines the pins of the seesaw for a d-pad
@@ -33,10 +36,10 @@ void faceButtonSetup (int top, int bottom, int left, int right,
 /// @param ss - the seesaw in question
 void dpadSetup (int up, int down, int left, int right, Adafruit_seesaw ss)
 {
-  ss.pinMode(up, INPUT);
-  ss.pinMode(down, INPUT);
-  ss.pinMode(left, INPUT);
-  ss.pinMode(right, INPUT);
+  ss.pinMode(up, INPUT_PULLUP);
+  ss.pinMode(down, INPUT_PULLUP);
+  ss.pinMode(left, INPUT_PULLUP);
+  ss.pinMode(right, INPUT_PULLUP);
 }
 
 /// @brief This function sets up and defines the pins of the see saw for a
@@ -48,9 +51,9 @@ void dpadSetup (int up, int down, int left, int right, Adafruit_seesaw ss)
 /// @param ss - the seesaw in question
 void rJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 {
-  ss.pinMode(x, INPUT);
-  ss.pinMode(y, INPUT);
-  ss.pinMode(select, INPUT);
+  ss.pinMode(x, INPUT_PULLUP);
+  ss.pinMode(y, INPUT_PULLUP);
+  ss.pinMode(select, INPUT_PULLUP);
 }
 
 /// @brief This function sets up and defines the pins of the see saw for a
@@ -62,9 +65,9 @@ void rJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 /// @param ss - the seesaw in question
 void lJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 {
-  ss.pinMode(x, INPUT);
-  ss.pinMode(y, INPUT);
-  ss.pinMode(select, INPUT);
+  ss.pinMode(x, INPUT_PULLUP);
+  ss.pinMode(y, INPUT_PULLUP);
+  ss.pinMode(select, INPUT_PULLUP);
 
 }
 
@@ -74,8 +77,8 @@ void lJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 /// @param ss the seesw itself
 void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 {
-  ss.pinMode(top, INPUT);
-  ss.pinMode(bottom, INPUT);
+  ss.pinMode(top, INPUT_PULLUP);
+  ss.pinMode(bottom, INPUT_PULLUP);
 
 }
 
@@ -85,8 +88,8 @@ void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 /// @param ss the seesw itself
 void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 {
-  ss.pinMode(top, INPUT);
-  ss.pinMode(bottom, INPUT);
+  ss.pinMode(top, INPUT_PULLUP);
+  ss.pinMode(bottom, INPUT_PULLUP);
 }
 
 ///////////////////////
@@ -107,15 +110,15 @@ void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 /// @param right - the right face button pin # (usually the decline button)
 /// @param button - a bool that's true when the button module is in use
 /// @param ss - the seesaw in question
-void faceButtonRead (int top, int bottom, int left, int right, bool button,
+void faceButtonRead (int top, int bottom, int left, int right,
                      Adafruit_seesaw ss)
 {
-  bool button;
 
   //process the top button input
   if (ss.digitalRead(top) == LOW)
   {
     gamepad.press(BUTTON_4);
+    Serial.println("Button_4");
     button = true;
   }
   else
@@ -127,6 +130,7 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
   if (ss.digitalRead(bottom) == LOW)
   {
     gamepad.press(BUTTON_1);
+    Serial.println("Button_1");
     button = true;
   }
   else
@@ -138,6 +142,7 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
   if (ss.digitalRead(left) == LOW)
   {
     gamepad.press(BUTTON_3);
+    Serial.println("Button_3");
     button = true;
   }
   else
@@ -149,6 +154,7 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
   if (ss.digitalRead(right) == LOW)
   {
     gamepad.press(BUTTON_2);
+    Serial.println("Button_2");
     button = true;
   }
   else
@@ -166,17 +172,18 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
 /// @param right - the right button pin # (usually the decline button)
 /// @param button - a bool that's true when the button module is in use
 /// @param ss - the seesaw in question
-void dpadRead (int up, int down, int left, int right, bool button,
+void dpadRead (int up, int down, int left, int right,
                Adafruit_seesaw ss)
 {
   //THIS MODULE IS LIKELY TO BE FULLY MESSED UP BY WRONG BUTTON MAPPING
   //It depends on if the other triggers are included in the button mapping
-  bool button = false;
+
 
   //process the up button input
   if (ss.digitalRead(up) == LOW)
   {
     gamepad.press(BUTTON_13);
+    Serial.println("Button_13");
     button = true;
   }
   else
@@ -188,6 +195,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
   if (ss.digitalRead(down) == LOW)
   {
     gamepad.press(BUTTON_14);
+    Serial.println("Button_14");
     button = true;
   }
   else
@@ -199,6 +207,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
   if (ss.digitalRead(left) == LOW)
   {
     gamepad.press(BUTTON_15);
+    Serial.println("Button_15");
     button = true;
   }
   else
@@ -210,6 +219,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
   if (ss.digitalRead(right) == LOW)
   {
     gamepad.press(BUTTON_16);
+    Serial.println("Button_16");
     button = true;
   }
   else
@@ -229,7 +239,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
 /// @param select - the pin# for the button underneath the joystick
 /// @param joystick - a bool that's true when the joystick module is in use
 /// @param ss - the seesaw in question
-void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
+void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
 {
 
   int dx;
@@ -261,6 +271,7 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
   if (ss.digitalRead(select) == HIGH)
   {
     gamepad.press(BUTTON_12);
+    Serial.println("Button_12");
     joystick = true;
   }
   else
@@ -277,7 +288,7 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
 /// @param select - the pin# for the button underneath the joystick
 /// @param joystick - a bool that's true when the joystick module is in use
 /// @param ss - the seesaw in question
-void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
+void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
 {
   int dx;
   int dy;
@@ -308,6 +319,7 @@ void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
   if (ss.digitalRead(select) == HIGH)
   {
     gamepad.press(BUTTON_11);
+    Serial.println("Button_11");
     joystick = true;
   }
   else
@@ -329,11 +341,12 @@ void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
 void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
 {
 
-  bool button = true;
+
 
   if (ss.digitalRead(top) == LOW)
   {
     gamepad.press(BUTTON_5);
+    Serial.println("Button_5");
     button = true;
   }
   else
@@ -344,6 +357,7 @@ void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
   if (ss.digitalRead(bottom) == LOW)
   {
     gamepad.press(BUTTON_7);
+    Serial.println("Button_7");
     button = true;
   }
   else
@@ -361,21 +375,24 @@ void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
 /// @param ss - the seesaw in question
 void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
 {
-  bool button = false;
+
 
   if (ss.digitalRead(top) == LOW)
   {
     gamepad.press(BUTTON_6);
+    Serial.println("Button_6");
     button = true;
   }
   else
   {
     gamepad.release(BUTTON_6);
+    
   }
 
   if (ss.digitalRead(bottom) == LOW)
   {
     gamepad.press(BUTTON_8);
+    Serial.println("Button_8");
     button = true;
   }
   else
