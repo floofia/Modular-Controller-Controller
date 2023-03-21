@@ -19,10 +19,13 @@
 #include <BleGamepad.h>
 
 
+void Controller_Input();
+void Controller_address_setup();
+
 
 BleGamepad gamepad;
 
-
+used_module module[8];
 
 
 void Controller_Programming_Mode()
@@ -32,7 +35,7 @@ void Controller_Programming_Mode()
   int gui_select_device;
   int selection;
 
-  used_module module[8];
+
 
   while (1)
   {
@@ -154,24 +157,14 @@ void Controller_Programming_Mode()
 
 
           gamepad.begin();
-
-          bool button;
-
+          Controller_address_setup();
 
 
-          // dpadSetup(module[0].pins[0], module[0].pins[1], module[0].pins[2], module[0].pins[3], 10, i2c_outputs[0]);
-          //faceButtonSetup(module[1].pins[0], module[1].pins[1], module[1].pins[2], module[1].pins[3], 10, i2c_outputs[1]);
 
 
           while (1)
           {
-
-
-            //dpadRead(module[0].pins[0], module[0].pins[1], module[0].pins[2], module[0].pins[3], button, i2c_outputs[0]);
-            //faceButtonRead(module[1].pins[0], module[1].pins[1], module[1].pins[2], module[1].pins[3], button, i2c_outputs[1]);
-
-
-            //read_all()
+            Controller_Input();
           }
 
           break;
@@ -201,10 +194,6 @@ void Controller_Game_Mode()
 }
 
 
-
-
-
-
 /*
   void faceButtonSetup (int top, int bottom, int left, int right, Adafruit_seesaw ss);
   void faceButtonRead (int top, int bottom, int left, int right, Adafruit_seesaw ss);
@@ -227,10 +216,10 @@ void Controller_Game_Mode()
 
 void Controller_Input()
 {
+  bool button = false;
 
   for (int i = 0; i < nDevices; i++)
   {
-    bool button;
     //face_button read
     if (module[i].address > 9 && module[i].address < 20)
     {
@@ -265,7 +254,6 @@ void Controller_Input()
     else if (module[i].address > 59 && module[i].address < 70)
     {
       dpadRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
-
     }
     //if out of bounds
     else

@@ -106,7 +106,7 @@ void i2c_scan();
 
 
     //initialize the addresses before having them set
-     for (int i = 0; i < 5; i++) {i2c_addresses[i] = 0;}
+     for (int i = 0; i < 8; i++) {i2c_addresses[i] = 0;}
 
      //set connected devices to 0 and increment as they are detected
      nDevices = 0;
