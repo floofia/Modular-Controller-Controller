@@ -14,26 +14,18 @@
 #include "Module_Read_Write_Functions.h"
 #include "gui_interface.h"
 #include "Module_Initialization.h"
+#include "modulefunctiondefinitions.h"
 
 #include <BleGamepad.h>
 
 
+void Controller_Input();
+void Controller_address_setup();
+
 
 BleGamepad gamepad;
 
-void faceButtonSetup (int top, int bottom, int left, int right, int address,
-                      Adafruit_seesaw ss);
-void faceButtonRead (int top, int bottom, int left, int right, bool &button,
-                     Adafruit_seesaw ss);
-
-void dpadRead (int up, int down, int left, int right, bool button,
-               Adafruit_seesaw ss);
-
-
-void dpadSetup (int up, int down, int left, int right, char address,
-                Adafruit_seesaw ss);
-
-
+used_module module[8];
 
 
 void Controller_Programming_Mode()
@@ -43,7 +35,7 @@ void Controller_Programming_Mode()
   int gui_select_device;
   int selection;
 
-  used_module module[8];
+
 
   while (1)
   {
@@ -56,12 +48,12 @@ void Controller_Programming_Mode()
 
         //ssa.begin(i2c_addresses[0]);
 
-       
+
 
         all_devices_buffer();
-        
-       
-       
+
+
+
         all_devices_output();
 
         for (int i = 0; i < nDevices; i++)
@@ -83,22 +75,22 @@ void Controller_Programming_Mode()
 
       if (attiny_device == -1)
       {
-        
+
         do
         {
 
           Serial.println("Enter Value of the i2c device you'd like to edit: ");
 
-          
+
           gui_select_device = string_convert_int();
 
           if (ss.begin(gui_select_device))
           {
-          gui_setup(ss);
+            gui_setup(ss);
           }
 
           ss.begin(gui_select_device);
-          
+
         } while (!ss.begin(gui_select_device));
 
 
@@ -163,26 +155,16 @@ void Controller_Programming_Mode()
 
         case 4:
 
-      
+
           gamepad.begin();
+          Controller_address_setup();
 
-          bool button;
-          
 
-      
-          dpadSetup(module[0].pins[0], module[0].pins[1], module[0].pins[2], module[0].pins[3], 10, i2c_outputs[0]);
-          faceButtonSetup(module[1].pins[0], module[1].pins[1], module[1].pins[2], module[1].pins[3], 10, i2c_outputs[1]);
-       
+
 
           while (1)
           {
-
-
-            dpadRead(module[0].pins[0], module[0].pins[1], module[0].pins[2], module[0].pins[3], button, i2c_outputs[0]);
-            faceButtonRead(module[1].pins[0], module[1].pins[1], module[1].pins[2], module[1].pins[3], button, i2c_outputs[1]);
-
-
-           //read_all()
+            Controller_Input();
           }
 
           break;
@@ -209,7 +191,133 @@ void Controller_Game_Mode()
   delay(100);
 
 
+}
 
+
+/*
+  void faceButtonSetup (int top, int bottom, int left, int right, Adafruit_seesaw ss);
+  void faceButtonRead (int top, int bottom, int left, int right, Adafruit_seesaw ss);
+  void dpadSetup (int up, int down, int left, int right, Adafruit_seesaw ss);
+  void dpadRead (int up, int down, int left, int right, Adafruit_seesaw ss);
+  void rJoystickSetup(int x, int y, int select, Adafruit_seesaw ss);
+  void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss);
+  void lJoystickSetup(int x, int y, int select, Adafruit_seesaw ss);
+  void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss);
+  void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
+  void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
+  void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
+  void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
+  void debuggerSetup(int output, Adafruit_seesaw ss);
+  void debuggerWrite(int output, bool trigger, bool button, bool joystick,
+                   Adafruit_seesaw ss);
+*/
+
+
+
+void Controller_Input()
+{
+  bool button = false;
+
+  for (int i = 0; i < nDevices; i++)
+  {
+    //face_button read
+    if (module[i].address > 9 && module[i].address < 20)
+    {
+      faceButtonRead (module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
+
+    }
+    //L Trigger read
+    else if (module[i].address > 19 && module[i].address < 30)
+    {
+      lTriggerRead ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
+
+    }
+    //R Trigger Setup
+    else if (module[i].address > 29 && module[i].address < 40)
+    {
+      rTriggerRead ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
+
+    }
+    //L Joystick read
+    else if (module[i].address > 39 && module[i].address < 50)
+    {
+      lJoystickRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+
+    }
+    //R Joystick read
+    else if (module[i].address > 49 && module[i].address < 60)
+    {
+      rJoystickRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+
+    }
+    //D-Pad read
+    else if (module[i].address > 59 && module[i].address < 70)
+    {
+      dpadRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
+    }
+    //if out of bounds
+    else
+    {
+
+
+    }
+
+  }
+
+}
+
+
+
+void Controller_address_setup()
+{
+
+  for (int i = 0; i < nDevices; i++)
+  {
+    bool button;
+    //face_button setup
+    if (module[i].address > 9 && module[i].address < 20)
+    {
+      faceButtonSetup (module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
+
+    }
+    //L Trigger Setup
+    else if (module[i].address > 19 && module[i].address < 30)
+    {
+      lTriggerSetup ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
+
+    }
+    //R Trigger Setup
+    else if (module[i].address > 29 && module[i].address < 40)
+    {
+      rTriggerSetup ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
+
+    }
+    //L Joystick Setup
+    else if (module[i].address > 39 && module[i].address < 50)
+    {
+      lJoystickSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+
+    }
+    //R Joystick Setup
+    else if (module[i].address > 49 && module[i].address < 60)
+    {
+      rJoystickSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+
+    }
+    //D-Pad Setup
+    else if (module[i].address > 59 && module[i].address < 70)
+    {
+      dpadSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
+
+    }
+    //if out of bounds
+    else
+    {
+
+
+    }
+
+  }
 
 }
 
