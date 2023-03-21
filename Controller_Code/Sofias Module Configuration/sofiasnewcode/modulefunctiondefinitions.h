@@ -1,6 +1,5 @@
 #ifndef MODULEFUNCDEFINITIONS_H_
 #define MODULEFUNCDEFINITIONS_H_
-
 #include "modulefuncheader.h"
 
 /////////////////////////
@@ -105,18 +104,17 @@ void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 /// @param bottom - the bottom face button pin# (usually the select button)
 /// @param left - the left face button pin #
 /// @param right - the right face button pin # (usually the decline button)
-/// @param button - a bool that's true when the button module is in use
 /// @param ss - the seesaw in question
-void faceButtonRead (int top, int bottom, int left, int right, bool button,
+void faceButtonRead (int top, int bottom, int left, int right, //bool button,
                      Adafruit_seesaw ss)
 {
-    button = false;
+    //button = false;
 
     //process the top button input
     if (digitalRead(top))
     {
         gamepad.press(BUTTON_4);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -127,7 +125,7 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
     if (digitalRead(bottom))
     {
         gamepad.press(BUTTON_1);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -138,7 +136,7 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
     if (digitalRead(left))
     {
         gamepad.press(BUTTON_3);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -149,7 +147,7 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
     if (digitalRead(right))
     {
         gamepad.press(BUTTON_2);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -164,20 +162,19 @@ void faceButtonRead (int top, int bottom, int left, int right, bool button,
 /// @param down - the down button pin# (usually the select button)
 /// @param left - the left button pin #
 /// @param right - the right button pin # (usually the decline button)
-/// @param button - a bool that's true when the button module is in use
 /// @param ss - the seesaw in question
-void dpadRead (int up, int down, int left, int right, bool button, 
+void dpadRead (int up, int down, int left, int right, //bool button, 
                Adafruit_seesaw ss)
 {
   //THIS MODULE IS LIKELY TO BE FULLY MESSED UP BY WRONG BUTTON MAPPING
   //It depends on if the other triggers are included in the button mapping
-    button = false;
+    //button = false;
 
     //process the up button input
     if (digitalRead(up))
     {
         gamepad.press(BUTTON_13);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -188,7 +185,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
     if (digitalRead(down))
     {
         gamepad.press(BUTTON_14);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -199,7 +196,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
     if (digitalRead(left))
     {
         gamepad.press(BUTTON_15);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -210,7 +207,7 @@ void dpadRead (int up, int down, int left, int right, bool button,
     if (digitalRead(right))
     {
         gamepad.press(BUTTON_16);
-        button = true;
+        //button = true;
     }
     else
     {
@@ -227,9 +224,8 @@ void dpadRead (int up, int down, int left, int right, bool button,
 /// @param x - the pin# for the x axis
 /// @param y - the pin# for the y axis
 /// @param select - the pin# for the button underneath the joystick
-/// @param joystick - a bool that's true when the joystick module is in use
 /// @param ss - the seesaw in question
-void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
+void rJoystickRead(int x, int y, int select,  Adafruit_seesaw ss) //bool joystick,
 {
     
     int dx;
@@ -241,14 +237,14 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     yy = ss.analogRead(y);
     
     // usage check
-    if (x == 0 && y == 0)
-    {
-        joystick = false;
-    }
-    else 
-    {
-        joystick = true;
-    }
+    // if (x == 0 && y == 0)
+    // {
+    //     joystick = false;
+    // }
+    // else 
+    // {
+    //     joystick = true;
+    // }
     
     // map xx and yy to the proper ranges to dx and dy
     dx = map(xx, 0, 1023, 0, 32767);
@@ -261,7 +257,7 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     if (digitalRead(select) == HIGH)
     {      
         gamepad.press(BUTTON_12);
-        joystick = true;
+        //joystick = true;
     }
     else
     {
@@ -275,9 +271,8 @@ void rJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
 /// @param x - the pin# for the x axis
 /// @param y - the pin# for the y axis
 /// @param select - the pin# for the button underneath the joystick
-/// @param joystick - a bool that's true when the joystick module is in use
 /// @param ss - the seesaw in question
-void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
+void lJoystickRead(int x, int y, int select,  Adafruit_seesaw ss) //bool joystick,
 {
     int dx;
     int dy;
@@ -292,14 +287,14 @@ void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     dy = map(yy, 0, 1023, 0, 32767);
 
     //joystick check
-    if (x == 0 && y == 0)
-    {
-        joystick = false;
-    }
-    else 
-    {
-        joystick = true;
-    }
+    // if (x == 0 && y == 0)
+    // {
+    //     joystick = false;
+    // }
+    // else 
+    // {
+    //     joystick = true;
+    // }
     
     //put the data in the gamepad
     gamepad.setLeftThumb(dx,dy);
@@ -308,7 +303,7 @@ void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
     if (digitalRead(select) == HIGH)
     {  
         gamepad.press(BUTTON_11);
-        joystick = true;
+        //joystick = true;
     }
     else
     {
@@ -324,9 +319,8 @@ void lJoystickRead(int x, int y, int select, bool joystick, Adafruit_seesaw ss)
 ///        translate that into functional trigger button inputs
 /// @param top - the top button pin#
 /// @param bottom - the bottom button pin# 
-/// @param trigger - a bool that's true when the trigger module is in use
 /// @param ss - the seesaw in question
-void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
+void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )//bool trigger,
 {
   bool t = digitalRead(top);
   bool b = digitalRead(bottom);
@@ -334,12 +328,12 @@ void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
     {
         gamepad.release(BUTTON_5);
         gamepad.release(BUTTON_7);
-        trigger = false;
+        //trigger = false;
     }
     else
     {
         // default to not in use
-        trigger = true;
+        //trigger = true;
         if(b) // if bottom button is pressed
         {
             gamepad.press(BUTTON_7);
@@ -364,9 +358,8 @@ void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
 ///        translate that into functional trigger button inputs
 /// @param top - the top button pin#
 /// @param bottom - the bottom button pin# 
-/// @param trigger - a bool that's true when the trigger module is in use
 /// @param ss - the seesaw in question
-void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
+void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss ) //bool trigger,
 {
   bool t = digitalRead(top);
   bool b = digitalRead(bottom);
@@ -374,12 +367,12 @@ void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
     {
         gamepad.release(BUTTON_6);
         gamepad.release(BUTTON_8);
-        trigger = false;
+        //trigger = false;
     }
     else
     {
         // if either button is in use, it's in use.
-        trigger = true;
+        //trigger = true;
         
         if(b) // if bottom button is pressed
         {
@@ -400,5 +393,100 @@ void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss )
         }
     }
 }
+
+
+/// @brief This function reads if any of the buttons are in use and will
+///        output colors to the LED accordingly
+/// @param output - the pin number of the pwm pin that’ll run the RGB LED
+/// @param ss - the seesaw in 
+void debuggerWrite(int output, Adafruit_seesaw ss)
+{
+  //DDR
+  int module = check_modules();
+  //0 = none | 1 = joystick | 2 = buttons | 3 = trigger 4 = multiple
+  
+  // Process the output from the variables
+  // if multiple output white
+  // if joystick output red
+  // if buttons output green
+  // if trigger output blue
+  // if none do not output to LED
+  //if (module == 0)
+  //ss.analogWrite(output, )
+
+  //portb 2 is our analog output
+  // standard is pin 9
+
+
+
+
+
+
+
+
+}
+
+/// @brief This function reads the values of all the modules and tells 
+//         which are in use via an integer
+/// @return 0 = none | 1 = joystick | 2 = buttons | 3 = trigger
+//          4 = multiple
+int check_modules()
+{
+  int modules = 0; // 0 = none | 1 = joystick | 2 = buttons | 3 = trigger
+  // 4 = multiple
+  bool trigger_pressed = false;
+  bool button_pressed = false;
+  bool joystick_pressed = false;
+
+  // check trigger inputs
+  trigger_pressed |= gamepad.isPressed (BUTTON_5);
+  trigger_pressed |= gamepad.isPressed (BUTTON_7);
+  trigger_pressed |= gamepad.isPressed (BUTTON_6);
+  trigger_pressed |= gamepad.isPressed (BUTTON_4);
+
+  // check joystick inputs
+  joystick_pressed |= gamepad.isPressed (BUTTON_11);
+  joystick_pressed |= gamepad.isPressed (BUTTON_12);
+  //if (gamepad._x == 0 && gamepad._y == 0 && gamepad._z == 0 && gamepad._rZ == 0)
+  //{
+  //  joystick_pressed = true;
+  //}
+
+  // check dpad and face buttons
+  button_pressed |= gamepad.isPressed (BUTTON_4);
+  button_pressed |= gamepad.isPressed (BUTTON_1);
+  button_pressed |= gamepad.isPressed (BUTTON_3);
+  button_pressed |= gamepad.isPressed (BUTTON_2);
+  button_pressed |= gamepad.isPressed (BUTTON_13);
+  button_pressed |= gamepad.isPressed (BUTTON_14);
+  button_pressed |= gamepad.isPressed (BUTTON_15);
+  button_pressed |= gamepad.isPressed (BUTTON_16);
+
+  //if multiple inputs pressed
+  if ( (button_pressed && trigger_pressed)  || 
+       (button_pressed && joystick_pressed) || 
+       (joystick_pressed && trigger_pressed)  )
+    {
+       return 4; // multiple in use
+    }
+  else if ((button_pressed || trigger_pressed || joystick_pressed) == 0)
+    {
+        return 0; // no modules
+    }
+  else if (joystick_pressed)
+    {
+        return 1; // joystick
+    }    
+  else if (trigger_pressed)
+    {
+        return 3; // trigger
+    }
+  else if (button_pressed)
+    {
+        return 2; // buttons
+    }
+  return 0; // shouldn't reach here.
+}
+
 
 #endif
