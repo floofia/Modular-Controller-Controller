@@ -28,9 +28,9 @@ Adafruit_seesaw ss;
 
 Adafruit_seesaw i2c_outputs[8];
 
-/* Reads string from the user
-   Then converts it to an integer
-*/
+
+/// @brief Reads string from the user then converts it to an integer
+/// @return said integer
 int string_convert_int()
 {
   String string;
@@ -45,8 +45,10 @@ int string_convert_int()
 
 }
 
-/* Reads string from the user
-*/
+
+
+/// @brief reads in a string from a user
+/// @return the content of the string
 String string_read()
 {
 
@@ -63,8 +65,7 @@ String string_read()
 
 }
 
-/* Initializes i2c connected devices
-*/
+/// @brief Initializes i2c connected devices
 void all_devices_output()
 {
   //redundency check
@@ -94,8 +95,7 @@ void all_devices_output()
 }
 
 
-/* Overwrites values in the i2c_outputts array
-*/
+/// @brief Overwrites values in the i2c_outputts array
 void all_devices_buffer()
 {
   //redundency check
@@ -115,9 +115,8 @@ void all_devices_buffer()
  
 
 
-/* Outputs all registers of the EEPROM
-   Useful for debugging
-*/
+/// @brief Outputs all registers of the EEPROM
+/// Useful for debugging
 void read_entire_rom(Adafruit_seesaw ss)
 {
   int i;
@@ -132,9 +131,8 @@ void read_entire_rom(Adafruit_seesaw ss)
 
 }
 
-/* Outputs all used registers of the EEPROM
-   Output matches the reading format of the GUI
-*/
+/// @brief Outputs all used registers of the EEPROM
+/// Output matches the reading format of the GUI
 void read_device_rom(Adafruit_seesaw ss)
 {
   char module_name[64];
@@ -230,13 +228,12 @@ int pins_out[7] = {0, 4, 2, 2, 3, 3, 4};
 
 
 
-
+//Note to self:
 //Address; module_name; dev_type; Digital: 1 2 3 4; Analog: 5 6 7 8;
 
 
 
-/* Write sequence for modifying modules
-*/
+/// @brief  Write sequence for modifying modules
 void write_device_rom_sequence(Adafruit_seesaw &ss)
 {
 
@@ -253,10 +250,9 @@ void write_device_rom_sequence(Adafruit_seesaw &ss)
   ss.begin();
 }
 
-/* Reads and writes register 127.
-   This is the register of the device.
-   The user is  prompted for an address change
-*/
+/// @brief Reads and writes register 127.
+/// This is the register of the device.
+/// The user is  prompted for an address change
 void write_device_address(Adafruit_seesaw &ss)
 {
   int address = 50;
@@ -300,10 +296,9 @@ void write_device_address(Adafruit_seesaw &ss)
 }
 
 
-/* Reads and writes register 124 and 125.
-   This is the register of the device.
-   The user is  prompted for an address change
-*/
+/// @brief Reads and writes register 124 and 125.
+/// This is the register of the device.
+/// The user is  prompted for an address change
 void write_device_pins(Adafruit_seesaw &ss)
 {
   
@@ -368,10 +363,9 @@ Serial.println();
 
 }
 
-/* First 32 registers are read and outputs to
-   The screen. This is the name of the device.
-   The user is  prompted for a name change
-*/
+/// @brief First 32 registers are read and outputs to
+/// The screen. This is the name of the device.
+/// The user is  prompted for a name change
 void write_device_mod_name(Adafruit_seesaw ss)
 {
   //temp values for writing to the eeprom
@@ -424,10 +418,9 @@ void write_device_mod_name(Adafruit_seesaw ss)
 }
 
 
-/* A value is read from register 126 of the EEPROM
-   This is the device type of the module
-   The user is  prompted to change the device type
-*/
+/// @brief  A value is read from register 126 of the EEPROM
+/// This is the device type of the module
+/// The user is  prompted to change the device type
 void write_device_dev_type(Adafruit_seesaw ss)
 {
   //temp values that will be written to memory
@@ -537,9 +530,10 @@ void write_device_dev_type(Adafruit_seesaw ss)
 //analog, register 125:   0000 0011
 
 
-/* Value stored in register 126 is read
-   The value determines the device type
-*/
+/// @brief  Value stored in register 126 is read
+/// The value determines the device type
+/// @param type - the type of module it is
+/// @return the equivalent value of the device type
 String mod_type(int type)
 {
 
@@ -598,6 +592,9 @@ String mod_type(int type)
 
 
 
+/// @brief  this reads in what kind of module it is
+/// @param type - type of module
+/// @return the integer equivalent value
 int mod_type_int(String type)
 {
 
@@ -656,7 +653,7 @@ int mod_type_int(String type)
   }
 
 
-return dev_type;
+  return dev_type;
 
 }
 

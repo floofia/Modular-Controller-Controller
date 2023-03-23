@@ -11,6 +11,9 @@
 #include "Global_Variables.h"
 #include "Module_Read_Write_Functions.h"
 
+/// @brief This is a function that sets up a seesaw based on communication
+///        with the GUI. 
+/// @param ss This is a seesaw that's passed in.
 void gui_setup (Adafruit_seesaw ss)
 {
   char module_name_char[32];

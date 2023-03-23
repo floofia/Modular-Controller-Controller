@@ -22,7 +22,8 @@ void Seesaw_read_settings(struct used_module &module, Adafruit_seesaw ss);
 
 
 
-
+/// @brief this prints via serial the information about the module
+/// @param module this is the module information
 void Seesaw_Struct_Name(struct used_module &module)
 {
 
@@ -58,7 +59,9 @@ Serial.println(module.address);
 
 }
 
-
+/// @brief this reads in the details of a module from serial
+/// @param module This is the module information
+/// @param ss this is the module itselg
 void Seesaw_read_settings(struct used_module &module, Adafruit_seesaw ss)
 {
 

@@ -1,9 +1,15 @@
+/******************************************************************************
+* Written by: Sofia Sadun
+* Edited by: Duncan McGonagle
+* Commented by: Sofia Sadun
+* Last Updated: 3/22/2023
+* Using the BLEGamepad library
+******************************************************************************/
+
 #ifndef MODULEFUNCHEADER_H_
 #define MODULEFUNCHEADER_H_
 
-//#include <BleConnectionStatus.h>
 #include <BleGamepad.h>
-//#include <BleGamepadConfiguration.h>
 #include "Adafruit_seesaw.h"
 #include <stdbool.h>
 #include <Wire.h>

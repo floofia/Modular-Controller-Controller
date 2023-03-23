@@ -15,7 +15,20 @@ ____________
 # MAP:                                            
     > Controller_code
         > Controller_Setup   
+            - Controller_Setup.h
+                *Controller_Input
+                *Controller_addres_setup
+                *Controller_Programming_mode
+                *Controller_Game_Mode
+                COPIED:
+                *faceButtonSetup
+                *faceButtonRead 
+                *dpadSetup 
+                *dpadRead
+
             - Controller_Setup.ino
+                *setup
+                *loop
 
             - Global_Variables.h
 
@@ -29,8 +42,7 @@ ____________
             - Module_initialization.h
                 *Seesaw_struct_name
                 *Seesaw_read_settings
-                *byte_to_pins_read
-
+                
             - Module_Read_Write_Functions.h
                 *string_convert_int                
                 *string_read
@@ -40,41 +52,35 @@ ____________
                 *read_device_rom
                 *write_device_rom_sequence
                 *write_device_address
+                *write_device_pins
                 *write_device_mod_name
                 *write_device_dev_type
-                *write_device_pins
                 *mod_type
                 *mod_type_int
+
+             - modulefuncheader.h
+                 
+             - modulefunctiondefinitions.h
+                *faceButtonSetup
+                *faceButtonRead 
+                *dpadSetup 
+                *dpadRead
+                *rJoystickSetup
+                *rJoystickRead
+                *lJoystickSetup
+                *lJoystickRead
+                *lTriggerSetup
+                *rTriggerSetup
+                *lTriggerRead 
+                *rTriggerRead  
+                *debuggerSetup
+                *debuggerWrite 
 
             - serial_setup.h
                 *serial_setup
 
         > Module Programmer
-            - Controller_Setup.ino
 
-        > Sofias Module Configuration
-            > sofiasnewcode
-                 - modulefuncheader.h
-                 
-                 - modulefunctiondefinitions.h
-                    *faceButtonSetup
-                    *faceButtonRead 
-                    *dpadSetup 
-                    *dpadRead
-                    *rJoystickSetup
-                    *rJoystickRead
-                    *lJoystickSetup
-                    *lJoystickRead
-                    *lTriggerSetup
-                    *rTriggerSetup
-                    *lTriggerRead 
-                    *rTriggerRead  
-                    *debuggerSetup
-                    *debuggerWrite 
-
-                 - sofiasnewcode.ino
-
-            - controllerheader.h
 
 -----------------------------------------------
     

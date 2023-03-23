@@ -23,11 +23,15 @@ void Controller_Input();
 void Controller_address_setup();
 
 
+// this declares a class that is called gamepad.
+// all of our calls to send game inputs will start with "gamepad"
+//eg. gamepad.press(BUTTON_1)
 BleGamepad gamepad;
 
 used_module module[8];
 
-
+/// @brief This function is the basis of the programming mode. this mode lets 
+///        you modify various aspects of the controller.  
 void Controller_Programming_Mode()
 {
 
@@ -56,6 +60,7 @@ void Controller_Programming_Mode()
 
         all_devices_output();
 
+        // pull the information for all devices
         for (int i = 0; i < nDevices; i++)
         {
 
@@ -63,7 +68,7 @@ void Controller_Programming_Mode()
 
         }
 
-
+        //print menu
         Serial.println();
         Serial.println("Enter Value of the i2c device you'd like to edit--");
         Serial.println("Or enter -1 for GUI interface: ");
@@ -73,7 +78,7 @@ void Controller_Programming_Mode()
 
       } while (attiny_device == 200); //if entered value is 200 refresh list
 
-      if (attiny_device == -1)
+      if (attiny_device == -1) // gui is interfacing 
       {
 
         do
@@ -97,7 +102,7 @@ void Controller_Programming_Mode()
 
       }
 
-
+      // if not using the gui interface
       if (attiny_device != -1)
       {
 
@@ -116,18 +121,23 @@ void Controller_Programming_Mode()
 
 
     } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
-
+    
+    //if not using gui interface
     if (attiny_device != -1)
     {
       //menu for users to see which option they want
+      //repeats until a valid input is given. 
       do {
         selection = 0;
+
+        // prints a menu
         Serial.println("READ MODULE       [1]");
         Serial.println("Write MODULE      [2]");
         Serial.println("Struct Test       [3]");
         Serial.println("Controls Test     [4]");
         Serial.println();
         Serial.print("Selection: ");
+
         //reads selection from user
         selection = string_convert_int();
         Serial.println();
@@ -136,14 +146,19 @@ void Controller_Programming_Mode()
       } while ((selection != 1) && (selection != 2) && (selection != 3) && (selection != 4));
 
       switch (selection) {
+        // if selection is to read module
         case 1:
           //read_entire_rom(ss);
           read_device_rom(ss);
           Serial.println();
           break;
+
+        // if selection is to write to a module
         case 2:
           write_device_rom_sequence(ss);
           break;
+
+        // if the selection is to do a struct test
         case 3:
 
           for (int i = 0; i < nDevices; i++)
@@ -153,22 +168,24 @@ void Controller_Programming_Mode()
 
           break;
 
+        // if the selection is to test controls
         case 4:
 
-
+          // initialize gamepad
           gamepad.begin();
           Controller_address_setup();
 
 
 
-
+          //forever run input processing
           while (1)
           {
             Controller_Input();
           }
 
           break;
-
+        
+        // this shouldn't ever happen
         default:
           Serial.print("You shouldn't be here");
           break;
@@ -183,6 +200,9 @@ void Controller_Programming_Mode()
 
 }
 
+/// @brief This is the game mode function. While this is true, the controller
+///        should just run as a normal controller. "GAME_MODE" is printed
+///        via serial for clarification to any people reading the serial output
 void Controller_Game_Mode()
 {
 
@@ -194,26 +214,8 @@ void Controller_Game_Mode()
 }
 
 
-/*
-  void faceButtonSetup (int top, int bottom, int left, int right, Adafruit_seesaw ss);
-  void faceButtonRead (int top, int bottom, int left, int right, Adafruit_seesaw ss);
-  void dpadSetup (int up, int down, int left, int right, Adafruit_seesaw ss);
-  void dpadRead (int up, int down, int left, int right, Adafruit_seesaw ss);
-  void rJoystickSetup(int x, int y, int select, Adafruit_seesaw ss);
-  void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss);
-  void lJoystickSetup(int x, int y, int select, Adafruit_seesaw ss);
-  void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss);
-  void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
-  void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
-  void lTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
-  void rTriggerRead ( int top, int bottom, bool trigger, Adafruit_seesaw ss );
-  void debuggerSetup(int output, Adafruit_seesaw ss);
-  void debuggerWrite(int output, bool trigger, bool button, bool joystick,
-                   Adafruit_seesaw ss);
-*/
 
-
-
+/// @brief This function processes all the inputs. There should be 
 void Controller_Input()
 {
   bool button = false;
@@ -267,7 +269,7 @@ void Controller_Input()
 }
 
 
-
+/// @brief this function runs the initialization functions
 void Controller_address_setup()
 {
 
@@ -365,8 +367,8 @@ void Controller_address_setup()
 
 
 
-
-
+// clarified in modulefunctiondefinitions
+// DUNCAN if you move all the functions here. PLEASE TAKE THE DOCUMENTATION TOO
 void faceButtonSetup (int top, int bottom, int left, int right, int address,
                       Adafruit_seesaw ss)
 {
@@ -378,7 +380,8 @@ void faceButtonSetup (int top, int bottom, int left, int right, int address,
 }
 
 
-
+// clarified in modulefunctiondefinitions
+// DUNCAN if you move all the functions here. PLEASE TAKE THE DOCUMENTATION TOO
 void faceButtonRead (int top, int bottom, int left, int right, bool & button,
                      Adafruit_seesaw ss)
 {
@@ -435,7 +438,8 @@ void faceButtonRead (int top, int bottom, int left, int right, bool & button,
 
 
 
-
+// clarified in modulefunctiondefinitions
+// DUNCAN if you move all the functions here. PLEASE TAKE THE DOCUMENTATION TOO
 void dpadRead (int up, int down, int left, int right, bool button,
                Adafruit_seesaw ss)
 {
@@ -492,8 +496,8 @@ void dpadRead (int up, int down, int left, int right, bool button,
   }
 }
 
-
-
+// clarified in modulefunctiondefinitions
+// DUNCAN if you move all the functions here. PLEASE TAKE THE DOCUMENTATION TOO
 void dpadSetup (int up, int down, int left, int right, char address,
                 Adafruit_seesaw ss)
 {

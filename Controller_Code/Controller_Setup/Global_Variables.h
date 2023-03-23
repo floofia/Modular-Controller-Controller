@@ -29,16 +29,21 @@ extern String names_dev[] = {
   "###################"
   };
 
-//module struct
+
+///module struct - this carries all the info that'll be passed into the GUI 
 struct used_module{
   
-char module_name[64] = "";
-
-int pins[15] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-
-int device_type = 0;
-
-int address = 0;
+  char module_name[64] = "";
+  // pins is an array that will hold all the pin connections in an agreed upon
+  // order. This order depends on the module type and new modules will be able
+  // to choose their own order they want the values passed in as. 
+  int pins[15] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  
+  //device type is another
+  int device_type = 0;
+  
+  // address of the seesaw. Values represent different modules.
+  int address = 0;
 
 };
 
