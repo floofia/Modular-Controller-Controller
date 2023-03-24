@@ -51,6 +51,7 @@ void Controller_Programming_Mode()
         gamepad.begin();
 
         //ssa.begin(i2c_addresses[0]);
+        
         nDevices = 0;
 
         all_devices_output();
