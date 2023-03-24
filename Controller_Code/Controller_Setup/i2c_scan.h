@@ -39,7 +39,7 @@ void i2c_scan();
       Serial.println("Scanning...");
 
     //initialize the addresses before having them set
-     for (int i = 0; i < 5; i++) 
+     for (int i = 0; i < 8; i++) 
      {
       i2c_addresses[i] = 0;
      }

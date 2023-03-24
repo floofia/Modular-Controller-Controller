@@ -30,8 +30,8 @@ BleGamepad gamepad;
 
 used_module module[8];
 
-/// @brief This function is the basis of the programming mode. this mode lets 
-///        you modify various aspects of the controller.  
+/// @brief This function is the basis of the programming mode. this mode lets
+///        you modify various aspects of the controller.
 void Controller_Programming_Mode()
 {
 
@@ -48,15 +48,10 @@ void Controller_Programming_Mode()
     {
       do {
         Serial.println();
-        i2c_scan();
+        gamepad.begin();
 
         //ssa.begin(i2c_addresses[0]);
-
-
-
-        all_devices_buffer();
-
-
+        nDevices = 0;
 
         all_devices_output();
 
@@ -74,11 +69,12 @@ void Controller_Programming_Mode()
         Serial.println("Or enter -1 for GUI interface: ");
         Serial.println("Or enter 200 for refresh: ");
 
+
         attiny_device = string_convert_int();
 
       } while (attiny_device == 200); //if entered value is 200 refresh list
 
-      if (attiny_device == -1) // gui is interfacing 
+      if (attiny_device == -1) // gui is interfacing
       {
 
         do
@@ -121,12 +117,12 @@ void Controller_Programming_Mode()
 
 
     } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
-    
+
     //if not using gui interface
     if (attiny_device != -1)
     {
       //menu for users to see which option they want
-      //repeats until a valid input is given. 
+      //repeats until a valid input is given.
       do {
         selection = 0;
 
@@ -172,7 +168,7 @@ void Controller_Programming_Mode()
         case 4:
 
           // initialize gamepad
-          gamepad.begin();
+
           Controller_address_setup();
 
 
@@ -184,7 +180,7 @@ void Controller_Programming_Mode()
           }
 
           break;
-        
+
         // this shouldn't ever happen
         default:
           Serial.print("You shouldn't be here");
@@ -215,7 +211,7 @@ void Controller_Game_Mode()
 
 
 
-/// @brief This function processes all the inputs. There should be 
+/// @brief This function processes all the inputs. There should be
 void Controller_Input()
 {
   bool button = false;
