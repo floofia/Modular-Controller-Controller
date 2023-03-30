@@ -35,8 +35,6 @@ void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
 void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
 void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss );
 void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss );
-void debuggerSetup(int output, Adafruit_seesaw ss);
-void debuggerWrite(int output, Adafruit_seesaw ss);
-int  check_modules();
+
 
 #endif
