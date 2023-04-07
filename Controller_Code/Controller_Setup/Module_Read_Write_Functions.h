@@ -326,7 +326,9 @@ void write_device_pins(Adafruit_seesaw &ss)
 
   Serial.println("**Available Pins to use**");
   Serial.println("0, 1, 2, 3, 20, 5, 6, 7, 8, 9, 12, 13, 14, 18, 19");
-  Serial.println("[Default pin order is 13, 18, 14, 19]");
+  Serial.println("[Default pins face,d-pad is 13, 18, 14, 19]");
+  Serial.println("[Default pins trigger is 18, 14]");
+  Serial.println("[Default pins joystick is 18, 19, 12]");
   Serial.println("Enter pins individually, stop with -1: ");
 
 
@@ -461,82 +463,6 @@ void write_device_dev_type(Adafruit_seesaw ss)
 
 }
 
-//void write_device_pins(Adafruit_seesaw ss)
-//{
-//
-//  int address = 50;
-//  int eepromval = 0;
-//
-//  Serial.print(F("Initial Device Address: "));
-//  address = ss.EEPROMRead8(127);
-//  Serial.print(address);
-//  Serial.println();
-//  Serial.println();
-//  Serial.print(F("Enter new Device Address [[between 25 and 125]]: "));
-//
-//  eepromval = string_convert_int();
-//
-//  //make sure address is not too low or too high
-//  //others issues with reading the device will occur
-//  if (!(eepromval > 25 && eepromval < 125))
-//  {
-//    while (!(eepromval > 25 && eepromval < 125))
-//    {
-//    Serial.println();
-//    Serial.println();
-//    Serial.print("Enter a value between 25 and 125: ");
-//    eepromval = string_convert_int();
-//
-//    }
-//
-//  }
-//
-//  ss.EEPROMWrite8(127, eepromval);
-//
-//  ss.begin(eepromval);
-// // Serial.print(F("New Device Address: "));
-// // address = ss.EEPROMRead8(127);
-//  //Serial.print(address);
-//  Serial.println();
-//  Serial.println();
-//  Serial.println();
-//}
-//
-//void read_device_pins(Adafruit_seesaw ss)
-//{
-//
-// int address = 124;
-//
-//
-//
-//}
-
-
-//pins
-//1111 1111
-///ADC pins 0, 1, 2, 3, 6, 7, 18, 19, 20
-
-
-//upper 4 of byte
-//19, 18, 7, 6
-//lower 4 of byte
-//3, 2, 1, 0
-//full byte: 19, 18, 7, 6, 3, 2, 1, 0
-
-
-//an example of 0, 2, 7, 19, pins being used would be
-//1010 0101
-//this is written to register 124 as digital
-//register 125 will be used for analog
-
-//let's say we want to wire up a standard joystick 2-axis 1-push-button
-//by default let's do this
-
-
-//used pins:
-//digital, register 124:  0000 0100
-//analog, register 125:   0000 0011
-
 
 /// @brief  Value stored in register 126 is read
 /// The value determines the device type
@@ -585,20 +511,6 @@ String mod_type(int type)
 
   return dev_type;
 }
-
-/* "Passive -- 0",
-  "Audio -- 16",
-  "Visual -- 32",
-  "Haptic -- 48",\
-  "----------------",
-  "Face Buttons -- 1",
-  "L Trigger -- 2",
-  "R Trigger -- 3",
-  "L Joystick -- 4",
-  "R Joystick -- 5",
-  "D-Pad -- 6", */
-
-
 
 /// @brief  this reads in what kind of module it is
 /// @param type - type of module
