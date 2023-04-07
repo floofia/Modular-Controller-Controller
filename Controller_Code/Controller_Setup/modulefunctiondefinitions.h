@@ -68,8 +68,8 @@ void dpadSetup (int up, int down, int left, int right, Adafruit_seesaw ss)
 void rJoystickSetup(int x, int y, int select, Adafruit_seesaw ss)
 {
   //sets all the pins (as given) as inputs
-  ss.pinMode(x, INPUT_PULLUP);
-  ss.pinMode(y, INPUT_PULLUP);
+  //ss.pinMode(x, INPUT_PULLUP);
+  //ss.pinMode(y, INPUT_PULLUP);
   ss.pinMode(select, INPUT_PULLUP);
 }
 
@@ -267,14 +267,19 @@ void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   yy = ss.analogRead(y);
 
   // map xx and yy to the proper ranges to dx and dy
-  dx = map(xx, 0, 1023, 0, 32767);
-  dy = map(yy, 0, 1023, 0, 32767);
+  dx = map(xx, 0, 1023, 0, 255);
+  dy = map(yy, 0, 1023, 0, 255);
+
+  dx = dx - 126;
+  Serial.println(dx);
+  dy = dy - 126;
+  Serial.println(dy);
 
   //put the data in the gamepad
   gamepad.setRightThumb(dx, dy);// right-x and right-y
 
   //read button press
-  if (ss.digitalRead(select) == HIGH)
+  if (ss.digitalRead(select) == LOW)
   {
     //R3 input
     gamepad.press(BUTTON_12);
@@ -304,15 +309,20 @@ void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   yy = ss.analogRead(y);
 
   // map xx and yy to the proper ranges to dx and dy
-  dx = map(xx, 0, 1023, 0, 32767);
-  dy = map(yy, 0, 1023, 0, 32767);
+  dx = map(xx, 0, 1023, 0, 255);
+  dy = map(yy, 0, 1023, 0, 255);
 
+  dx = dx - 126;
+  Serial.println(dx);
+  dy = dy - 126;
+  Serial.println(dy);
+  
 
   //put the data in the gamepad
   gamepad.setLeftThumb(dx, dy); //left-x and left-y
 
   //read button press
-  if (ss.digitalRead(select) == HIGH)
+  if (ss.digitalRead(select) == LOW)
   {
     // L3 input
     gamepad.press(BUTTON_11);
