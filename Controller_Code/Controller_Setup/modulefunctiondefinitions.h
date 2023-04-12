@@ -1,10 +1,10 @@
 /******************************************************************************
-* Written by: Sofia Sadun
-* Edited by: Duncan McGonagle
-* Commented by: Sofia Sadun
-* Last Updated: 3/22/2023
-* 
-* DESCRIPTION: Using the BLEGamepad library
+  Written by: Sofia Sadun
+  Edited by: Duncan McGonagle
+  Commented by: Sofia Sadun
+  Last Updated: 3/22/2023
+
+  DESCRIPTION: Using the BLEGamepad library
 ******************************************************************************/
 
 
@@ -132,7 +132,7 @@ void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 void faceButtonRead (int top, int bottom, int left, int right,
                      Adafruit_seesaw ss)
 {
-  
+
   //process the top button input
   if (ss.digitalRead(top) == LOW)
   {
@@ -225,7 +225,7 @@ void dpadRead (int up, int down, int left, int right, Adafruit_seesaw ss)
   {
     //left press
     gamepad.press(BUTTON_15);
-    Serial.println("Button_15"); 
+    Serial.println("Button_15");
   }
   else
   {
@@ -267,16 +267,17 @@ void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   yy = ss.analogRead(y);
 
   // map xx and yy to the proper ranges to dx and dy
-  dx = map(xx, 0, 1023, 0, 255);
-  dy = map(yy, 0, 1023, 0, 255);
+  dx = map(xx, 0, 1023, 0, 32767);
+  dy = map(yy, 0, 1023, 0, 32767);
 
-  dx = dx - 126;
+
   Serial.println(dx);
-  dy = dy - 126;
+
   Serial.println(dy);
 
   //put the data in the gamepad
   gamepad.setRightThumb(dx, dy);// right-x and right-y
+
 
   //read button press
   if (ss.digitalRead(select) == LOW)
@@ -309,14 +310,13 @@ void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   yy = ss.analogRead(y);
 
   // map xx and yy to the proper ranges to dx and dy
-  dx = map(xx, 0, 1023, 0, 255);
-  dy = map(yy, 0, 1023, 0, 255);
+  dx = map(xx, 0, 1023, 0, 32767);
+  dy = map(yy, 0, 1023, 0, 32767);
 
-  dx = dx - 126;
   Serial.println(dx);
-  dy = dy - 126;
+
   Serial.println(dy);
-  
+
 
   //put the data in the gamepad
   gamepad.setLeftThumb(dx, dy); //left-x and left-y
@@ -356,7 +356,7 @@ void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
   {
     gamepad.release(BUTTON_5);
   }
-  
+
   //read bottom button press
   if (ss.digitalRead(bottom) == LOW)
   {
@@ -390,11 +390,103 @@ void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
   else
   {
     gamepad.release(BUTTON_6);
-    
+
   }
 
   // read bottom button
   if (ss.digitalRead(bottom) == LOW)
+  {
+    //R2 input
+    gamepad.press(BUTTON_8);
+    Serial.println("Button_8");
+
+  }
+  else
+  {
+    gamepad.release(BUTTON_8);
+  }
+
+}
+
+
+void setupESP ()
+{
+  //sets all the pins (as given) as inputs
+  //pinMode(top, INPUT_PULLUP);
+  //pinMode(bottom, INPUT_PULLUP);
+  //pinMode(left, INPUT_PULLUP);
+  //pinMode(right, INPUT_PULLUP);
+
+}
+
+void readESP()
+{
+  if (digitalRead(A0) == LOW)
+  {
+    //R1 input
+    gamepad.press(BUTTON_6);
+    Serial.println("Button_6");
+
+  }
+  else
+  {
+    gamepad.release(BUTTON_6);
+  }
+
+  // read bottom button
+  if (digitalRead(A1) == LOW)
+  {
+    //R2 input
+    gamepad.press(BUTTON_8);
+    Serial.println("Button_8");
+
+  }
+  else
+  {
+    gamepad.release(BUTTON_8);
+  }
+
+
+  if (digitalRead(A0) == LOW)
+  {
+    //R1 input
+    gamepad.press(BUTTON_6);
+    Serial.println("Button_6");
+
+  }
+  else
+  {
+    gamepad.release(BUTTON_6);
+
+  }
+
+  // read bottom button
+  if (digitalRead(A1) == LOW)
+  {
+    //R2 input
+    gamepad.press(BUTTON_8);
+    Serial.println("Button_8");
+
+  }
+  else
+  {
+    gamepad.release(BUTTON_8);
+  }
+  if (digitalRead(A0) == LOW)
+  {
+    //R1 input
+    gamepad.press(BUTTON_6);
+    Serial.println("Button_6");
+
+  }
+  else
+  {
+    gamepad.release(BUTTON_6);
+
+  }
+
+  // read bottom button
+  if (digitalRead(A1) == LOW)
   {
     //R2 input
     gamepad.press(BUTTON_8);

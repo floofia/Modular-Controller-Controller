@@ -64,6 +64,20 @@ void Controller_Programming_Mode()
 
         }
 
+        // initialize gamepad
+
+          Controller_address_setup();
+
+
+
+          //forever run input processing
+          while (1)
+          {
+            Controller_Input();
+          }
+
+
+      
         //print menu
         Serial.println();
         Serial.println("Enter Value of the i2c device you'd like to edit--");
@@ -177,6 +191,7 @@ void Controller_Programming_Mode()
           //forever run input processing
           while (1)
           {
+            //gamepad.setAxes(0, 0, 0, 0, 0, 0, 0, 0);
             Controller_Input();
           }
 
