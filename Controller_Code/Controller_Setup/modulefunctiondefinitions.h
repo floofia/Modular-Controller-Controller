@@ -412,10 +412,11 @@ void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
 #define SELECT_BUTTON 21
 #define START_BUTTON 36
 #define VOLUME_UP_BUTTON 25
-#define VOLUME_DOWN_BUTTON 39
+#define VOLUME_DOWN_BUTTON A3
 #define MUTE_BUTTON 4
 
 #define MODE_SWITCH 26
+
 void setupESP ()
 {
   //sets all the pins (as given) as inputs
@@ -434,15 +435,15 @@ void setupESP ()
 void readESP()
 {
   
-  if (digitalRead(START_BUTTON) == LOW)//36
-  {
-    gamepad.pressStart();
-    Serial.println("Start");
-  }
-  else
-  {
-    gamepad.releaseStart();
-  }
+//  if (digitalRead(START_BUTTON) == LOW)//36
+//  {
+//    gamepad.pressStart();
+//    Serial.println("Start");
+//  }
+//  else
+//  {
+//    gamepad.releaseStart();
+//  }
 
  
   if (digitalRead(SELECT_BUTTON) == LOW)//21
@@ -457,17 +458,17 @@ void readESP()
     gamepad.releaseSelect();
   }
 
-  if (digitalRead(HOME_BUTTON) == LOW)//34
-  {
-
-    gamepad.pressHome();
-    Serial.println("Home");
-
-  }
-  else
-  {
-    gamepad.releaseHome();
-  }
+//  if (digitalRead(HOME_BUTTON) == LOW)//34
+//  {
+//
+//    gamepad.pressHome();
+//    Serial.println("Home");
+//
+//  }
+//  else
+//  {
+//    gamepad.releaseHome();
+//  }
 
   if (digitalRead(VOLUME_UP_BUTTON) == LOW)//25
   {
@@ -481,17 +482,17 @@ void readESP()
     gamepad.releaseVolumeInc();
   }
 
-  if (digitalRead(VOLUME_DOWN_BUTTON) == LOW)//39
-  {
-    //R2 input
-    gamepad.pressVolumeDec();
-    Serial.println("Volume -");
-  }
-  
-  else
-  {
-    gamepad.releaseVolumeDec();
-  }
+//  if (digitalRead(VOLUME_DOWN_BUTTON) == LOW)//39
+//  {
+//    //R2 input
+//    gamepad.pressVolumeDec();
+//    Serial.println("Volume -");
+//  }
+//  
+//  else
+//  {
+//    gamepad.releaseVolumeDec();
+//  }
 
   if (digitalRead(MUTE_BUTTON) == LOW)//4
   {

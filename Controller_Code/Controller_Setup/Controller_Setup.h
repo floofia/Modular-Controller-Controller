@@ -235,7 +235,7 @@ void Controller_Programming_Mode()
   {
     bool button = false;
 
-    //readESP();
+    readESP();
 
     for (int i = 0; i < nDevices; i++)
     {
@@ -289,7 +289,8 @@ void Controller_Programming_Mode()
   /// @brief this function runs the initialization functions
   void Controller_address_setup()
   {
-
+    setupESP();
+    
     for (int i = 0; i < nDevices; i++)
     {
       bool button;
