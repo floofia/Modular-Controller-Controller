@@ -271,9 +271,9 @@ void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   dy = map(yy, 0, 1023, 0, 32767);
 
 
-  Serial.println(dx);
+ // Serial.println(dx);
 
-  Serial.println(dy);
+ // Serial.println(dy);
 
   //put the data in the gamepad
   gamepad.setRightThumb(dx, dy);// right-x and right-y
@@ -313,9 +313,9 @@ void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   dx = map(xx, 0, 1023, 0, 32767);
   dy = map(yy, 0, 1023, 0, 32767);
 
-  Serial.println(dx);
+  //Serial.println(dx);
 
-  Serial.println(dy);
+  //Serial.println(dy);
 
 
   //put the data in the gamepad
@@ -408,94 +408,100 @@ void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
 
 }
 
+#define HOME_BUTTON 34
+#define SELECT_BUTTON 21
+#define START_BUTTON 36
+#define VOLUME_UP_BUTTON 25
+#define VOLUME_DOWN_BUTTON 39
+#define MUTE_BUTTON 4
 
+#define MODE_SWITCH 26
 void setupESP ()
 {
   //sets all the pins (as given) as inputs
-  //pinMode(top, INPUT_PULLUP);
-  //pinMode(bottom, INPUT_PULLUP);
-  //pinMode(left, INPUT_PULLUP);
-  //pinMode(right, INPUT_PULLUP);
+
+  pinMode(VOLUME_UP_BUTTON, INPUT_PULLUP);
+  pinMode(HOME_BUTTON, INPUT_PULLUP);
+  pinMode(VOLUME_DOWN_BUTTON, INPUT_PULLUP);
+  pinMode(START_BUTTON, INPUT_PULLUP);
+  pinMode(MUTE_BUTTON, INPUT_PULLUP);
+  pinMode(SELECT_BUTTON, INPUT_PULLUP);
+  
+  pinMode(MODE_SWITCH, INPUT_PULLUP);
 
 }
 
 void readESP()
 {
-  if (digitalRead(A0) == LOW)
+  
+  if (digitalRead(START_BUTTON) == LOW)//36
   {
-    //R1 input
-    gamepad.press(BUTTON_6);
-    Serial.println("Button_6");
+    gamepad.pressStart();
+    Serial.println("Start");
+  }
+  else
+  {
+    gamepad.releaseStart();
+  }
+
+ 
+  if (digitalRead(SELECT_BUTTON) == LOW)//21
+  {
+ 
+    gamepad.pressSelect();
+    Serial.println("Select");
 
   }
   else
   {
-    gamepad.release(BUTTON_6);
+    gamepad.releaseSelect();
   }
 
-  // read bottom button
-  if (digitalRead(A1) == LOW)
+  if (digitalRead(HOME_BUTTON) == LOW)//34
+  {
+
+    gamepad.pressHome();
+    Serial.println("Home");
+
+  }
+  else
+  {
+    gamepad.releaseHome();
+  }
+
+  if (digitalRead(VOLUME_UP_BUTTON) == LOW)//25
   {
     //R2 input
-    gamepad.press(BUTTON_8);
-    Serial.println("Button_8");
+    gamepad.pressVolumeInc();
+    Serial.println("Volume +");
 
   }
   else
   {
-    gamepad.release(BUTTON_8);
+    gamepad.releaseVolumeInc();
   }
 
-
-  if (digitalRead(A0) == LOW)
-  {
-    //R1 input
-    gamepad.press(BUTTON_6);
-    Serial.println("Button_6");
-
-  }
-  else
-  {
-    gamepad.release(BUTTON_6);
-
-  }
-
-  // read bottom button
-  if (digitalRead(A1) == LOW)
+  if (digitalRead(VOLUME_DOWN_BUTTON) == LOW)//39
   {
     //R2 input
-    gamepad.press(BUTTON_8);
-    Serial.println("Button_8");
-
+    gamepad.pressVolumeDec();
+    Serial.println("Volume -");
   }
+  
   else
   {
-    gamepad.release(BUTTON_8);
+    gamepad.releaseVolumeDec();
   }
-  if (digitalRead(A0) == LOW)
-  {
-    //R1 input
-    gamepad.press(BUTTON_6);
-    Serial.println("Button_6");
 
+  if (digitalRead(MUTE_BUTTON) == LOW)//4
+  {
+    gamepad.pressVolumeMute();
+    Serial.println("Mute");
   }
+  
   else
   {
-    gamepad.release(BUTTON_6);
-
-  }
-
-  // read bottom button
-  if (digitalRead(A1) == LOW)
-  {
-    //R2 input
-    gamepad.press(BUTTON_8);
-    Serial.println("Button_8");
-
-  }
-  else
-  {
-    gamepad.release(BUTTON_8);
+    gamepad.releaseVolumeMute();
   }
 
 }

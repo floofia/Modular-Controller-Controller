@@ -51,7 +51,7 @@ void Controller_Programming_Mode()
         gamepad.begin();
 
         //ssa.begin(i2c_addresses[0]);
-        
+
         nDevices = 0;
 
         all_devices_output();
@@ -65,275 +65,280 @@ void Controller_Programming_Mode()
         }
 
         // initialize gamepad
+        if (digitalRead(MODE_SWITCH) == HIGH)
+        {
+        while (digitalRead(MODE_SWITCH) == HIGH)
+        {
+            Controller_address_setup();
 
-          Controller_address_setup();
 
 
-
-          //forever run input processing
-          while (1)
-          {
-            Controller_Input();
+            //forever run input processing
+            while (1)
+            {
+              Controller_Input();
+            }
           }
+        }
+
+          //print menu
+          Serial.println();
+          Serial.println("Enter Value of the i2c device you'd like to edit--");
+          Serial.println("Or enter -1 for GUI interface: ");
+          Serial.println("Or enter 200 for refresh: ");
 
 
-      
-        //print menu
-        Serial.println();
-        Serial.println("Enter Value of the i2c device you'd like to edit--");
-        Serial.println("Or enter -1 for GUI interface: ");
-        Serial.println("Or enter 200 for refresh: ");
+          attiny_device = string_convert_int();
 
+        } while (attiny_device == 200); //if entered value is 200 refresh list
 
-        attiny_device = string_convert_int();
-
-      } while (attiny_device == 200); //if entered value is 200 refresh list
-
-      if (attiny_device == -1) // gui is interfacing
-      {
-
-        do
+        if (attiny_device == -1) // gui is interfacing
         {
 
-          Serial.println("Enter Value of the i2c device you'd like to edit: ");
-
-
-          gui_select_device = string_convert_int();
-
-          if (ss.begin(gui_select_device))
+          do
           {
-            gui_setup(ss);
+
+            Serial.println("Enter Value of the i2c device you'd like to edit: ");
+
+
+            gui_select_device = string_convert_int();
+
+            if (ss.begin(gui_select_device))
+            {
+              gui_setup(ss);
+            }
+
+            ss.begin(gui_select_device);
+
+          } while (!ss.begin(gui_select_device));
+
+
+
+        }
+
+        // if not using the gui interface
+        if (attiny_device != -1)
+        {
+
+          //Serial.println(attiny_device);
+          Serial.println();
+          Serial.println();
+
+          //check to see if the address entered was valid
+          if (!ss.begin(attiny_device))
+          {
+            Serial.println("seesaw failed to start");
+            Serial.println();
+            all_devices_output();
           }
-
-          ss.begin(gui_select_device);
-
-        } while (!ss.begin(gui_select_device));
+        }
 
 
+      } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
 
-      }
-
-      // if not using the gui interface
+      //if not using gui interface
       if (attiny_device != -1)
       {
+        //menu for users to see which option they want
+        //repeats until a valid input is given.
+        do {
+          selection = 0;
 
-        //Serial.println(attiny_device);
-        Serial.println();
-        Serial.println();
-
-        //check to see if the address entered was valid
-        if (!ss.begin(attiny_device))
-        {
-          Serial.println("seesaw failed to start");
+          // prints a menu
+          Serial.println("READ MODULE       [1]");
+          Serial.println("Write MODULE      [2]");
+          Serial.println("Struct Test       [3]");
+          Serial.println("Controls Test     [4]");
           Serial.println();
-          all_devices_output();
+          Serial.print("Selection: ");
+
+          //reads selection from user
+          selection = string_convert_int();
+          Serial.println();
+          Serial.println();
+
+        } while ((selection != 1) && (selection != 2) && (selection != 3) && (selection != 4));
+
+        switch (selection) {
+          // if selection is to read module
+          case 1:
+            //read_entire_rom(ss);
+            read_device_rom(ss);
+            Serial.println();
+            break;
+
+          // if selection is to write to a module
+          case 2:
+            write_device_rom_sequence(ss);
+            break;
+
+          // if the selection is to do a struct test
+          case 3:
+
+            for (int i = 0; i < nDevices; i++)
+            {
+              Seesaw_Struct_Name(module[i]);
+            }
+
+            break;
+
+          // if the selection is to test controls
+          case 4:
+
+            // initialize gamepad
+
+            Controller_address_setup();
+
+
+
+            //forever run input processing
+            while (1)
+            {
+              //gamepad.setAxes(0, 0, 0, 0, 0, 0, 0, 0);
+              Controller_Input();
+            }
+
+            break;
+
+          // this shouldn't ever happen
+          default:
+            Serial.print("You shouldn't be here");
+            break;
         }
+
       }
 
+      i2c_scan();
+      delay(1000);
 
-    } while (!ss.begin(attiny_device) && !ss.begin(gui_select_device));
+    }
 
-    //if not using gui interface
-    if (attiny_device != -1)
+  }
+
+  /// @brief This is the game mode function. While this is true, the controller
+  ///        should just run as a normal controller. "GAME_MODE" is printed
+  ///        via serial for clarification to any people reading the serial output
+  void Controller_Game_Mode()
+  {
+
+    Serial.println("GAME_MODE");
+
+    delay(100);
+
+
+  }
+
+
+
+  /// @brief This function processes all the inputs. There should be
+  void Controller_Input()
+  {
+    bool button = false;
+
+    //readESP();
+
+    for (int i = 0; i < nDevices; i++)
     {
-      //menu for users to see which option they want
-      //repeats until a valid input is given.
-      do {
-        selection = 0;
+      //face_button read
+      if (module[i].address > 9 && module[i].address < 20)
+      {
+        faceButtonRead (module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
 
-        // prints a menu
-        Serial.println("READ MODULE       [1]");
-        Serial.println("Write MODULE      [2]");
-        Serial.println("Struct Test       [3]");
-        Serial.println("Controls Test     [4]");
-        Serial.println();
-        Serial.print("Selection: ");
+      }
+      //L Trigger read
+      else if (module[i].address > 19 && module[i].address < 30)
+      {
+        lTriggerRead ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
 
-        //reads selection from user
-        selection = string_convert_int();
-        Serial.println();
-        Serial.println();
+      }
+      //R Trigger Setup
+      else if (module[i].address > 29 && module[i].address < 40)
+      {
+        rTriggerRead ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
 
-      } while ((selection != 1) && (selection != 2) && (selection != 3) && (selection != 4));
+      }
+      //L Joystick read
+      else if (module[i].address > 39 && module[i].address < 50)
+      {
+        lJoystickRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
 
-      switch (selection) {
-        // if selection is to read module
-        case 1:
-          //read_entire_rom(ss);
-          read_device_rom(ss);
-          Serial.println();
-          break;
+      }
+      //R Joystick read
+      else if (module[i].address > 49 && module[i].address < 60)
+      {
+        rJoystickRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
 
-        // if selection is to write to a module
-        case 2:
-          write_device_rom_sequence(ss);
-          break;
-
-        // if the selection is to do a struct test
-        case 3:
-
-          for (int i = 0; i < nDevices; i++)
-          {
-            Seesaw_Struct_Name(module[i]);
-          }
-
-          break;
-
-        // if the selection is to test controls
-        case 4:
-
-          // initialize gamepad
-
-          Controller_address_setup();
+      }
+      //D-Pad read
+      else if (module[i].address > 59 && module[i].address < 70)
+      {
+        dpadRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
+      }
+      //if out of bounds
+      else
+      {
 
 
-
-          //forever run input processing
-          while (1)
-          {
-            //gamepad.setAxes(0, 0, 0, 0, 0, 0, 0, 0);
-            Controller_Input();
-          }
-
-          break;
-
-        // this shouldn't ever happen
-        default:
-          Serial.print("You shouldn't be here");
-          break;
       }
 
     }
 
-    i2c_scan();
-    delay(1000);
-
   }
 
-}
 
-/// @brief This is the game mode function. While this is true, the controller
-///        should just run as a normal controller. "GAME_MODE" is printed
-///        via serial for clarification to any people reading the serial output
-void Controller_Game_Mode()
-{
-
-  Serial.println("GAME_MODE");
-
-  delay(100);
-
-
-}
-
-
-
-/// @brief This function processes all the inputs. There should be
-void Controller_Input()
-{
-  bool button = false;
-
-  for (int i = 0; i < nDevices; i++)
+  /// @brief this function runs the initialization functions
+  void Controller_address_setup()
   {
-    //face_button read
-    if (module[i].address > 9 && module[i].address < 20)
+
+    for (int i = 0; i < nDevices; i++)
     {
-      faceButtonRead (module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
+      bool button;
+      //face_button setup
+      if (module[i].address > 9 && module[i].address < 20)
+      {
+        faceButtonSetup (module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
 
-    }
-    //L Trigger read
-    else if (module[i].address > 19 && module[i].address < 30)
-    {
-      lTriggerRead ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
+      }
+      //L Trigger Setup
+      else if (module[i].address > 19 && module[i].address < 30)
+      {
+        lTriggerSetup ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
 
-    }
-    //R Trigger Setup
-    else if (module[i].address > 29 && module[i].address < 40)
-    {
-      rTriggerRead ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
+      }
+      //R Trigger Setup
+      else if (module[i].address > 29 && module[i].address < 40)
+      {
+        rTriggerSetup ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
 
-    }
-    //L Joystick read
-    else if (module[i].address > 39 && module[i].address < 50)
-    {
-      lJoystickRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+      }
+      //L Joystick Setup
+      else if (module[i].address > 39 && module[i].address < 50)
+      {
+        lJoystickSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
 
-    }
-    //R Joystick read
-    else if (module[i].address > 49 && module[i].address < 60)
-    {
-      rJoystickRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+      }
+      //R Joystick Setup
+      else if (module[i].address > 49 && module[i].address < 60)
+      {
+        rJoystickSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
 
-    }
-    //D-Pad read
-    else if (module[i].address > 59 && module[i].address < 70)
-    {
-      dpadRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
-    }
-    //if out of bounds
-    else
-    {
+      }
+      //D-Pad Setup
+      else if (module[i].address > 59 && module[i].address < 70)
+      {
+        dpadSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
 
-
-    }
-
-  }
-
-}
+      }
+      //if out of bounds
+      else
+      {
 
 
-/// @brief this function runs the initialization functions
-void Controller_address_setup()
-{
-
-  for (int i = 0; i < nDevices; i++)
-  {
-    bool button;
-    //face_button setup
-    if (module[i].address > 9 && module[i].address < 20)
-    {
-      faceButtonSetup (module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
-
-    }
-    //L Trigger Setup
-    else if (module[i].address > 19 && module[i].address < 30)
-    {
-      lTriggerSetup ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
-
-    }
-    //R Trigger Setup
-    else if (module[i].address > 29 && module[i].address < 40)
-    {
-      rTriggerSetup ( module[i].pins[0], module[i].pins[1], i2c_outputs[i]);
-
-    }
-    //L Joystick Setup
-    else if (module[i].address > 39 && module[i].address < 50)
-    {
-      lJoystickSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
-
-    }
-    //R Joystick Setup
-    else if (module[i].address > 49 && module[i].address < 60)
-    {
-      rJoystickSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
-
-    }
-    //D-Pad Setup
-    else if (module[i].address > 59 && module[i].address < 70)
-    {
-      dpadSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
-
-    }
-    //if out of bounds
-    else
-    {
-
+      }
 
     }
 
   }
-
-}
 
 
 #endif
