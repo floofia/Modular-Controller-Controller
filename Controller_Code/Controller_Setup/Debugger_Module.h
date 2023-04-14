@@ -5,7 +5,7 @@
 * Last Updated: 3/30/2023
 * 
 * DESCRIPTION: This is an example for how to make a new module for the 
-*              controller. 
+*              controller. With the bonus of using embedded C 
 ******************************************************************************/
 
 
@@ -16,11 +16,12 @@
 #include <avr/delay.h>
 
 // DEFINING FUNCTIONS
-void Adafruit_seesaw::debuggerSetup(int r, int g, int b, Adafruit_seesaw ss);
-void Adafruit_seesaw::debuggerWrite(int r, int g, int b, Adafruit_seesaw ss);
+void Adafruit_seesaw::debugSet(int r, int g, int b,);
+void Adafruit_seesaw::debugWrite(int r, int g, int b);
+debuggerSetup(int r, int g, int b, Adafruit_seesaw ss);
+debuggerWrite(int r, int g, int b, Adafruit_seesaw ss);
 int  Adafruit_seesaw::check_modules();
 //void write_led (int r, int g, int b, Adafruit_seesaw ss); // LED red
-
 
 
 
@@ -30,7 +31,17 @@ int  Adafruit_seesaw::check_modules();
 /// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
 /// @param ss - the seesaw in use
 /// default pins are:r = 9, g = 13, b = 12
-void Adafruit_seesaw::debuggerSetup(int r, int g, int b, Adafruit_seesaw ss)
+void debuggerSetup(int r, int g, int b, Adafruit_seesaw ss)
+{
+    ss.debugSet(r,g,b);
+}
+
+/// @brief This function sets up the debugger function
+/// @param r - the pin number of the pwm pin that’ll run the Red part of the LED
+/// @param g - the pin number of the pwm pin that’ll run the Green part of the LED
+/// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
+/// default pins are:r = 9, g = 13, b = 12
+void Adafruit_seesaw::debugSet(int r, int g, int b)
 {
     //pin 9  = PB2 - R
     //pin 12 = PC0 - B
@@ -38,11 +49,13 @@ void Adafruit_seesaw::debuggerSetup(int r, int g, int b, Adafruit_seesaw ss)
     //pin 0  = PA4
     //pin 1  = PA5
     
+    //we aren't taking into account the parameters due to time constraints
     DDRB |= 0b00000100; 
     DDRC |= 0b00000011;
     PORTB &= 0b11111011;
     PORTC &= 0111111100;
 }
+
 
 /// @brief This function reads if any of the buttons are in use and will
 ///        output colors to the LED accordingly
@@ -50,12 +63,21 @@ void Adafruit_seesaw::debuggerSetup(int r, int g, int b, Adafruit_seesaw ss)
 /// @param g - the pin number of the pwm pin that’ll run the Green part of the LED
 /// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
 /// @param ss - the seesaw in use
-void Adafruit_seesaw::debuggerWrite(int r, int g, int b, Adafruit_seesaw ss)
+void debuggerWrite(int r, int g, int b, Adafruit_seesaw ss)
 {
-  int module = check_modules();
-  //0 = none | 1 = joystick | 2 = buttons | 3 = trigger 4 = multiple
-  
+    ss.debugWrite(r,g,b);
+}
 
+/// @brief This function reads if any of the buttons are in use and will
+///        output colors to the LED accordingly
+/// @param r - the pin number of the pwm pin that’ll run the Red part of the LED
+/// @param g - the pin number of the pwm pin that’ll run the Green part of the LED
+/// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
+void Adafruit_seesaw::debugWrite(int r, int g, int b)
+{
+    //we aren't taking into account the parameters due to time constraints
+    int module = check_modules();
+    //0 = none | 1 = joystick | 2 = buttons | 3 = trigger 4 = multiple
     //pin 9  = PB2 - R
     //pin 12 = PC0 - B
     //pin 13 = PC1 - G
@@ -102,9 +124,6 @@ void Adafruit_seesaw::debuggerWrite(int r, int g, int b, Adafruit_seesaw ss)
         PORTB = 0b00000000;
         PORTC = 0b00000000;
     }
-
-  
-
 }
 
 /// @brief This function reads the values of all the modules and tells 
@@ -169,57 +188,5 @@ int Adafruit_seesaw::check_modules()
   return 0; // shouldn't reach here.
 }
 
-/*
-/// @brief This writes data to make the LED red
-/// @brief This function sets up the debugger function
-/// @param r - the pin number of the pwm pin that’ll run the Red part of the LED
-/// @param g - the pin number of the pwm pin that’ll run the Green part of the LED
-/// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
-/// @param ss - the seesaw in use
-/// @param mode - an int representing what color to light up
-void write_led( int r, int g, int b, int mode, Adafruit_seesaw ss)
-{    if ( mode == 1)
-    {
-        // print red
-        // 255, 0, 0
-        PORT_B = 0b00000100;
-        PORT_C = 0b00000000;
-        
-    }
-    else if ( mode == 2)
-    {
-        // print green
-        // 0, 255, 0
-        
-        PORT_B = 0b00000000;
-        PORT_C = 0b00000001;
-    }
-    else if ( mode == 3)
-    {
-        // print blue
-        // 0, 0, 255
-        
-        PORT_B = 0b00000000;
-        PORT_C = 0b00000010;
-    }
-    else if ( mode == 4)
-    {
-        // print white
-        // 255, 255, 255
-     
-        PORT_B = 0b00000100;
-        PORT_C = 0b00000011;   
-    }
-    else 
-    {
-        // print black
-        // 0, 0, 0
-        
-        PORT_B = 0b00000000;
-        PORT_C = 0b00000000;
-    }
-
-}
-*/
 
 #endif
