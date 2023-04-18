@@ -15,7 +15,7 @@
 #include "gui_interface.h"
 #include "Module_Initialization.h"
 #include "modulefunctiondefinitions.h"
-
+#include "Debugger_Module.h"
 #include <BleGamepad.h>
 
 
@@ -274,6 +274,13 @@ void Controller_Programming_Mode()
       {
         dpadRead(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
       }
+      // Custom module:
+      else if (module[i].address == 99)
+      {
+        debuggerWrite(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
+      }
+
+
       //if out of bounds
       else
       {
@@ -329,6 +336,12 @@ void Controller_Programming_Mode()
       {
         dpadSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], module[i].pins[3], i2c_outputs[i]);
 
+      }
+      
+      // Custom module example:
+      else if (module[i].address == 99)
+      {
+        debuggerSetup(module[i].pins[0], module[i].pins[1], module[i].pins[2], i2c_outputs[i]);
       }
       //if out of bounds
       else
