@@ -20,15 +20,16 @@ ____________
                 *Controller_addres_setup
                 *Controller_Programming_mode
                 *Controller_Game_Mode
-                COPIED:
-                *faceButtonSetup
-                *faceButtonRead 
-                *dpadSetup 
-                *dpadRead
 
             - Controller_Setup.ino
                 *setup
                 *loop
+
+            - Debugger_Module.h
+                *adafruit_seesaw.debugset
+                *adafruit_seesaw.debugwrite
+                *debuggerSetup
+                *debuggerWrute
 
             - Global_Variables.h
 
@@ -78,8 +79,6 @@ ____________
 
             - serial_setup.h
                 *serial_setup
-
-        > Module Programmer
 
 
 -----------------------------------------------

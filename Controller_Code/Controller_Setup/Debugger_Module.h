@@ -11,17 +11,17 @@
 
 #ifndef DEBUGGER_MODULE_H_
 #define DEBUGGER_MODULE_H_
-#include <modulefuncheader.h>
-#include <avr/io.h>
-#include <avr/delay.h>
+//#include <avr/io.h>
+//#include <avr/delay.h>
+#include <Adafruit_seesaw.h>
 
 // DEFINING FUNCTIONS
-void Adafruit_seesaw::debugSet(int r, int g, int b,);
-void Adafruit_seesaw::debugWrite(int r, int g, int b);
-debuggerSetup(int r, int g, int b, Adafruit_seesaw ss);
-debuggerWrite(int r, int g, int b, Adafruit_seesaw ss);
-int  Adafruit_seesaw::check_modules();
-//void write_led (int r, int g, int b, Adafruit_seesaw ss); // LED red
+//void Adafruit_seesaw::debugSet(int r, int g, int b);
+//void Adafruit_seesaw::debugWrite(int r, int g, int b);
+//int  Adafruit_seesaw::check_modules();
+void debuggerSetup(int r, int g, int b, Adafruit_seesaw ss);
+void debuggerWrite(int r, int g, int b, Adafruit_seesaw ss);
+int  check_modules();
 
 
 
@@ -33,7 +33,9 @@ int  Adafruit_seesaw::check_modules();
 /// default pins are:r = 9, g = 13, b = 12
 void debuggerSetup(int r, int g, int b, Adafruit_seesaw ss)
 {
-    ss.debugSet(r,g,b);
+  ss.pinMode(r, INPUT_PULLUP);
+  ss.pinMode(g, INPUT_PULLUP);
+  ss.pinMode(b, INPUT_PULLUP);
 }
 
 /// @brief This function sets up the debugger function
@@ -41,6 +43,7 @@ void debuggerSetup(int r, int g, int b, Adafruit_seesaw ss)
 /// @param g - the pin number of the pwm pin that’ll run the Green part of the LED
 /// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
 /// default pins are:r = 9, g = 13, b = 12
+/*
 void Adafruit_seesaw::debugSet(int r, int g, int b)
 {
     //pin 9  = PB2 - R
@@ -55,6 +58,7 @@ void Adafruit_seesaw::debugSet(int r, int g, int b)
     PORTB &= 0b11111011;
     PORTC &= 0111111100;
 }
+*/
 
 
 /// @brief This function reads if any of the buttons are in use and will
@@ -65,18 +69,76 @@ void Adafruit_seesaw::debugSet(int r, int g, int b)
 /// @param ss - the seesaw in use
 void debuggerWrite(int r, int g, int b, Adafruit_seesaw ss)
 {
-    ss.debugWrite(r,g,b);
+  //  ss.debugWrite(r,g,b);
+
+  //we aren't taking into account the parameters due to time constraints
+  int mode = check_modules();
+
+  // Process the output from the variables
+    if ( mode == 1)
+    {
+        // print red
+        // 255, 0, 0
+        ss.analogWrite(r, 255);
+        ss.analogWrite(g, 0);
+        ss.analogWrite(b, 0);
+
+    }
+    else if ( mode == 2)
+    {
+        // print green
+        // 0, 255, 0
+        
+        ss.analogWrite(g, 255);
+        ss.analogWrite(r, 0);
+        ss.analogWrite(b, 0);
+
+    }
+    else if ( mode == 3)
+    {
+        // print blue
+        // 0, 0, 255
+        
+        ss.analogWrite(b, 255);
+        ss.analogWrite(r, 0);
+        ss.analogWrite(g, 0);
+
+
+    }
+    else if ( mode == 4)
+    {
+        // print white
+        // 255, 255, 255
+      
+        ss.analogWrite(r, 255);
+        ss.analogWrite(g, 255);
+        ss.analogWrite(b, 255);
+
+    }
+    else 
+    {
+        // print black
+        // 0, 0, 0
+        
+        ss.analogWrite(r, 0);
+        ss.analogWrite(g, 0);
+        ss.analogWrite(b, 0);
+
+        
+    }
 }
+
 
 /// @brief This function reads if any of the buttons are in use and will
 ///        output colors to the LED accordingly
 /// @param r - the pin number of the pwm pin that’ll run the Red part of the LED
 /// @param g - the pin number of the pwm pin that’ll run the Green part of the LED
 /// @param b - the pin number of the pwm pin that’ll run the Blue part of the LED
+/*
 void Adafruit_seesaw::debugWrite(int r, int g, int b)
 {
     //we aren't taking into account the parameters due to time constraints
-    int module = check_modules();
+    int mode = check_modules();
     //0 = none | 1 = joystick | 2 = buttons | 3 = trigger 4 = multiple
     //pin 9  = PB2 - R
     //pin 12 = PC0 - B
@@ -125,12 +187,13 @@ void Adafruit_seesaw::debugWrite(int r, int g, int b)
         PORTC = 0b00000000;
     }
 }
+*/
 
 /// @brief This function reads the values of all the modules and tells 
 ///        which are in use via an integer
 /// @return 0 = none | 1 = joystick | 2 = buttons | 3 = trigger
 ///         4 = multiple
-int Adafruit_seesaw::check_modules()
+int check_modules()
 {
   int modules = 0; // 0 = none | 1 = joystick | 2 = buttons | 3 = trigger
   // 4 = multiple
