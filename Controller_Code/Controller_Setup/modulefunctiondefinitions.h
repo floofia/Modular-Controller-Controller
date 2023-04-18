@@ -1,10 +1,10 @@
 /******************************************************************************
-* Written by: Sofia Sadun
-* Edited by: Duncan McGonagle
-* Commented by: Sofia Sadun
-* Last Updated: 3/22/2023
-* 
-* DESCRIPTION: Using the BLEGamepad library
+  Written by: Sofia Sadun
+  Edited by: Duncan McGonagle
+  Commented by: Sofia Sadun
+  Last Updated: 3/22/2023
+
+  DESCRIPTION: Using the BLEGamepad library
 ******************************************************************************/
 
 
@@ -132,7 +132,7 @@ void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss )
 void faceButtonRead (int top, int bottom, int left, int right,
                      Adafruit_seesaw ss)
 {
-  
+
   //process the top button input
   if (ss.digitalRead(top) == LOW)
   {
@@ -225,7 +225,7 @@ void dpadRead (int up, int down, int left, int right, Adafruit_seesaw ss)
   {
     //left press
     gamepad.press(BUTTON_15);
-    Serial.println("Button_15"); 
+    Serial.println("Button_15");
   }
   else
   {
@@ -267,16 +267,17 @@ void rJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   yy = ss.analogRead(y);
 
   // map xx and yy to the proper ranges to dx and dy
-  dx = map(xx, 0, 1023, 0, 255);
-  dy = map(yy, 0, 1023, 0, 255);
+  dx = map(xx, 0, 1023, 0, 32767);
+  dy = map(yy, 0, 1023, 0, 32767);
 
-  dx = dx - 126;
-  Serial.println(dx);
-  dy = dy - 126;
-  Serial.println(dy);
+
+ // Serial.println(dx);
+
+ // Serial.println(dy);
 
   //put the data in the gamepad
   gamepad.setRightThumb(dx, dy);// right-x and right-y
+
 
   //read button press
   if (ss.digitalRead(select) == LOW)
@@ -309,14 +310,13 @@ void lJoystickRead(int x, int y, int select, Adafruit_seesaw ss)
   yy = ss.analogRead(y);
 
   // map xx and yy to the proper ranges to dx and dy
-  dx = map(xx, 0, 1023, 0, 255);
-  dy = map(yy, 0, 1023, 0, 255);
+  dx = map(xx, 0, 1023, 0, 32767);
+  dy = map(yy, 0, 1023, 0, 32767);
 
-  dx = dx - 126;
-  Serial.println(dx);
-  dy = dy - 126;
-  Serial.println(dy);
-  
+  //Serial.println(dx);
+
+  //Serial.println(dy);
+
 
   //put the data in the gamepad
   gamepad.setLeftThumb(dx, dy); //left-x and left-y
@@ -356,7 +356,7 @@ void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
   {
     gamepad.release(BUTTON_5);
   }
-  
+
   //read bottom button press
   if (ss.digitalRead(bottom) == LOW)
   {
@@ -390,7 +390,7 @@ void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
   else
   {
     gamepad.release(BUTTON_6);
-    
+
   }
 
   // read bottom button
@@ -404,6 +404,105 @@ void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss )
   else
   {
     gamepad.release(BUTTON_8);
+  }
+
+}
+
+#define HOME_BUTTON 34
+#define SELECT_BUTTON 21
+#define START_BUTTON 36
+#define VOLUME_UP_BUTTON 25
+#define VOLUME_DOWN_BUTTON A3
+#define MUTE_BUTTON 4
+
+#define MODE_SWITCH 26
+
+void setupESP ()
+{
+  //sets all the pins (as given) as inputs
+
+  pinMode(VOLUME_UP_BUTTON, INPUT_PULLUP);
+  pinMode(HOME_BUTTON, INPUT_PULLUP);
+  pinMode(VOLUME_DOWN_BUTTON, INPUT_PULLUP);
+  pinMode(START_BUTTON, INPUT_PULLUP);
+  pinMode(MUTE_BUTTON, INPUT_PULLUP);
+  pinMode(SELECT_BUTTON, INPUT_PULLUP);
+  
+  pinMode(MODE_SWITCH, INPUT_PULLUP);
+
+}
+
+void readESP()
+{
+  
+//  if (digitalRead(START_BUTTON) == LOW)//36
+//  {
+//    gamepad.pressStart();
+//    Serial.println("Start");
+//  }
+//  else
+//  {
+//    gamepad.releaseStart();
+//  }
+
+ 
+  if (digitalRead(SELECT_BUTTON) == LOW)//21
+  {
+ 
+    gamepad.pressSelect();
+    Serial.println("Select");
+
+  }
+  else
+  {
+    gamepad.releaseSelect();
+  }
+
+//  if (digitalRead(HOME_BUTTON) == LOW)//34
+//  {
+//
+//    gamepad.pressHome();
+//    Serial.println("Home");
+//
+//  }
+//  else
+//  {
+//    gamepad.releaseHome();
+//  }
+
+  if (digitalRead(VOLUME_UP_BUTTON) == LOW)//25
+  {
+    //R2 input
+    gamepad.pressVolumeInc();
+    Serial.println("Volume +");
+
+  }
+  else
+  {
+    gamepad.releaseVolumeInc();
+  }
+
+//  if (digitalRead(VOLUME_DOWN_BUTTON) == LOW)//39
+//  {
+//    //R2 input
+//    gamepad.pressVolumeDec();
+//    Serial.println("Volume -");
+//  }
+//  
+//  else
+//  {
+//    gamepad.releaseVolumeDec();
+//  }
+
+  if (digitalRead(MUTE_BUTTON) == LOW)//4
+  {
+    gamepad.pressVolumeMute();
+    Serial.println("Mute");
+  }
+  
+  else
+  {
+    gamepad.releaseVolumeMute();
   }
 
 }

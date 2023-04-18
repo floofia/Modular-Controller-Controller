@@ -35,6 +35,7 @@ void lTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
 void rTriggerSetup ( int top, int bottom, Adafruit_seesaw ss );
 void lTriggerRead ( int top, int bottom, Adafruit_seesaw ss );
 void rTriggerRead ( int top, int bottom, Adafruit_seesaw ss );
+void readESP();
 
 
 #endif
