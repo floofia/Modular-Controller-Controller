@@ -26,10 +26,9 @@ ____________
                 *loop
 
             - Debugger_Module.h
-                *adafruit_seesaw.debugset
-                *adafruit_seesaw.debugwrite
+                *check_modules
                 *debuggerSetup
-                *debuggerWrute
+                *debuggerWrite
 
             - Global_Variables.h
 

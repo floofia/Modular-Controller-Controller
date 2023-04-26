@@ -100,9 +100,9 @@ void debuggerWrite(int r, int g, int b, Adafruit_seesaw ss)
         // print black
         // 0, 0, 0
         
-        ss.analogWrite(r, 100);
-        ss.analogWrite(g, 100);
-        ss.analogWrite(b, 100);
+        ss.analogWrite(r, 10);
+        ss.analogWrite(g, 10);
+        ss.analogWrite(b, 10);
 
         
     }
@@ -126,7 +126,7 @@ int check_modules()
   trigger_pressed |= gamepad.isPressed (BUTTON_5);
   trigger_pressed |= gamepad.isPressed (BUTTON_7);
   trigger_pressed |= gamepad.isPressed (BUTTON_6);
-  trigger_pressed |= gamepad.isPressed (BUTTON_4);
+  trigger_pressed |= gamepad.isPressed (BUTTON_8);
 
   // check joystick inputs
   joystick_pressed |= gamepad.isPressed (BUTTON_11);
